@@ -1,0 +1,46 @@
+name: EDRDG refresh
+
+# THE RADICALS, THEIR KANJI AND THE STROKES, KEPT CURRENT. EDRDG's licence (clause 4,
+# https://www.edrdg.org/edrdg/licence.html, read 2026-10-01) asks a package that uses its
+# files for "a procedure for regular updating… at least once a month".
+#
+# On the 1st of each month this fetches the newest RADKFILE, KRADFILE and KANJIDIC2 and writes
+# src/data/radkfile.data.ts and strokes.data.ts again (scripts/build-data.mjs). If they changed
+# (the SHA-256 of a file is in the data), it pushes them to a branch, data/edrdg-YYYY-MM, and FAILS on purpose,
+# so the failure is the reminder: land the branch on main with a patch version in CHANGELOG.md, then tag it.
+# It opens no pull request and never pushes to main. A push to a branch that is not main starts no other workflow here.
+# The names (from one pinned commit of Kanji alive) do not change, and are not made again.
+on:
+  schedule:
+    - cron: "23 6 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Fetch the newest files and write the data again
+        run: node scripts/build-data.mjs
+      - name: Leave the new data on a branch, and say so by failing
+        run: |
+          if git diff --quiet -- src/data; then
+            echo "The radicals and the strokes are what EDRDG's newest files make. Nothing to land."
+            exit 0
+          fi
+          branch="data/edrdg-$(date -u +%Y-%m)"
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add src/data
+          git commit -m "The radicals and the strokes from EDRDG's newest files"
+          git push --force origin "$branch"
+          echo "::error::EDRDG's files changed. Land $branch on main with a new version in CHANGELOG.md and a tag, then delete the branch."
+          exit 1

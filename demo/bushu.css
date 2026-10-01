@@ -1,0 +1,21 @@
+/* Bushu's own look, after family.css: the picker on the page's own colours, the options, and the lines of use. */
+:root { --intro-room: 11rem; --intro-room-wide: 6rem; }
+.setup { margin-top: 10px; }
+.setup .fam-seg { max-width: 100%; }
+.setup .fam-seg button { font-size: .85rem; }
+section > h2 { margin: 14px 0 6px; font-size: 1.05rem; }
+.settings { margin-top: 22px; display: grid; gap: 4px; }
+.settings h2 { margin: 0 0 4px; }
+.settings .fam-label { min-width: 6.2rem; }
+.kanji-input { width: 5.6rem; text-align: center; font-size: 1.4rem; }
+
+/* The picker takes the family's colours, light and dark, over its own (the id outranks the picker's dark-mode rule). */
+#picker.bushu, #tag .bushu { --bp-ink: var(--ink); --bp-muted: var(--muted); --bp-rule: var(--rule); --bp-surface: var(--surface); --bp-chosen: var(--felt); --bp-chosen-ink: var(--felt-ink); --bp-accent: var(--accent); }
+
+.uses { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.uses code { font-family: var(--mono); font-size: .85rem; overflow-wrap: anywhere; }
+.more .uses { grid-template-columns: 1fr; }
+.tag bushu-picker { display: block; max-width: 760px; }
+@media (max-width: 520px) {
+  .settings .fam-label { min-width: 100%; }
+}
