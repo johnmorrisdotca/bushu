@@ -76,21 +76,3 @@ The Release workflow (`.github/workflows/release.yml`) checks and builds the
 package, attaches the tarball to a GitHub release and publishes it to npm by
 trusted publishing, with provenance and no token. A version already on npm is
 not published again.
-
-## Particular to Bushu
-
-Bug reports and ideas go in the [issues](https://github.com/johnmorrisdotca/bushu/issues).
-
-### Commands and rules
-
-```sh
-pnpm check          # lint, types and tests: the data checked against itself, the lookup, the shapes, the names, the strokes
-pnpm test:package   # pack it as npm does, install it in an empty project, import every entry
-pnpm test:demo      # build the demo and play it in a real browser, at a phone's width and a desk's
-pnpm docs:make      # rewrite docs/strings-ja.md after changing a word of the picker
-pnpm data           # make src/data/ again from EDRDG's files and Kanji alive's
-```
-
-The data is machine output: change a script in `scripts/` and run it again, never edit a file in `src/data/` by hand. A radical's shape (`RADICAL_FORMS`) or a stroke correction
-is a change to `src/forms.ts` with a test that says why, checked against EDRDG's own list. Nothing may be added to the data from a course, a mnemonic list or anything else whose licence does not let it be shipped: a test reads every file for such content,
-and the source and licence of anything new go in `NOTICE.md` in the same change.
