@@ -1,7 +1,7 @@
 {
   "name": "@johnmorrisdotca/bushu",
-  "version": "1.0.0",
-  "description": "Bushu 部首, find a kanji by the parts it is made of, for JavaScript and TypeScript: choose parts and get every kanji that holds them all, with the parts that can still narrow the search, as the multi-radical lookup of the dictionary sites does. The 253 radicals and their 6,355 kanji from RADKFILE, the shapes people see (氵 for 汁), the Japanese school names (さんずい, にんべん), the strokes of a kanji, and a radical picker for any page, as a function call or a tag, in English and Japanese. Zero dependencies.",
+  "version": "1.0.1",
+  "description": "Bushu 部首, find a kanji by the parts it is made of: choose radicals and get every kanji that holds them all. The 253 radicals and their 6,355 kanji from RADKFILE, and a radical picker for any page, in English and Japanese. Zero dependencies.",
   "keywords": [
     "kanji",
     "radical",
@@ -27,7 +27,7 @@
     "node",
     "itsutsu"
   ],
-  "homepage": "https://github.com/johnmorrisdotca/bushu#readme",
+  "homepage": "https://johnmorrisdotca.github.io/bushu/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnmorrisdotca/bushu.git"
