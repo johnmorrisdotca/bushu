@@ -1,6 +1,6 @@
 {
   "name": "@johnmorrisdotca/bushu",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Bushu 部首, find a kanji by the parts it is made of: choose radicals and get every kanji that holds them all. The 253 radicals and their 6,355 kanji from RADKFILE, and a radical picker for any page, in English and Japanese. Zero dependencies.",
   "keywords": [
     "kanji",
@@ -102,7 +102,8 @@
     "prepublishOnly": "pnpm check && pnpm build",
     "site": "pnpm build && node scripts/site.mjs",
     "test:demo": "pnpm site && playwright test",
-    "pictures": "pnpm site && node scripts/readme-pictures.mjs",
+    "screenshots:readme": "pnpm site && node scripts/readme-pictures.mjs",
+    "test:readme": "pnpm build && node scripts/check-readme-examples.mjs",
     "docs:make": "node scripts/docs.mjs",
     "data": "node scripts/build-data.mjs && node --experimental-strip-types scripts/build-names.ts",
     "data:radkfile": "node scripts/build-data.mjs",
