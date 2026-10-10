@@ -672,14 +672,14 @@ Bushu is one of twenty-eight packages, each made for the same site, each at
 
 **Geography & data**
 
-- [address-plus](https://github.com/johnmorrisdotca/address-plus) (アドレスプラス): parse and format addresses in the United States, Canada and Japan. [Demo](https://johnmorrisdotca.github.io/address-plus/).
+- [address-plus](https://github.com/johnmorrisdotca/address-plus) (アドレスプラス): parse and format addresses in the United States, Canada, Japan, Australia and the United Kingdom. [Demo](https://johnmorrisdotca.github.io/address-plus/).
 - [Chizu](https://github.com/johnmorrisdotca/chizu) (地図): maps of the world and of countries' regions, in English and Japanese, with a quiz and callouts. [Demo](https://johnmorrisdotca.github.io/chizu/).
 - [Hata](https://github.com/johnmorrisdotca/hata) (旗): country and regional flags as SVG, at their true proportions and keyed by ISO code. [Demo](https://johnmorrisdotca.github.io/hata/).
 - [Kuni](https://github.com/johnmorrisdotca/kuni) (国): countries and their regions, with ISO codes and names in English and Japanese. [Demo](https://johnmorrisdotca.github.io/kuni/).
 
 **Developer tools**
 
-- [REST in Pieces](https://github.com/spxis/rest-in-pieces) (レスト・イン・ピーシズ): seeded test data and REST APIs for frontend development, with latency and error drills. [Demo](https://spxis.github.io/rest-in-pieces/).
+- [REST in Pieces](https://github.com/spxis/rest-in-pieces) (レスト・イン・ピーシーズ): seeded test data and REST APIs for frontend development, with latency and error drills. [Demo](https://spxis.github.io/rest-in-pieces/).
 
 
 **This package is Bushu.** The demos of all twenty-eight share one header and footer, so each links the rest.
@@ -712,3 +712,8 @@ See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.0.2, adds no code: it 
 
 The code is [MIT](./LICENSE) © John Morris. The data is other people's work, under their own terms: Creative Commons Attribution-ShareAlike 4.0 for the radicals, their kanji and the strokes (the Electronic Dictionary Research and Development Group), and Creative Commons Attribution 4.0 for the
 school names (Kanji alive). [NOTICE.md](./NOTICE.md) says which file is which, credits each as its licence asks, and says what that asks of a project that uses it.
+
+
+### Embed builder
+
+[Build a radical picker](https://johnmorrisdotca.github.io/bushu/builder.html), preview it and copy element, iframe, module, React 19, Vue, Svelte, Angular, HTML or URL code. Choices stay in the URL; the embed reads no storage. `size` selects small (320px), medium (480px) or large (640px), with optional pixel `width`, auto/light/dark `theme` and a spoken `label`. See [the embed guide](docs/embeds.md).

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add the shared embed builder, validated iframe route, reflected presentation options and host data/callback options. Preserve picker methods and lazy data loading; native events now cross shadow roots.
+
+
 All notable changes to this project are written here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses
 [Semantic Versioning](https://semver.org/).

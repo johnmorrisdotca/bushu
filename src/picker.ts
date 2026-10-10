@@ -275,7 +275,7 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
     draw();
     const detailNow = eventDetail();
     options.onChange?.(detailNow);
-    host.dispatchEvent(new CustomEvent("bushu-change", { detail: detailNow, bubbles: true }));
+    host.dispatchEvent(new CustomEvent("bushu-change", { detail: detailNow, bubbles: true, composed: true }));
   }
 
   function toggle(part: string): void {
@@ -308,7 +308,7 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
       const detailNow = eventDetail();
       if (kanji !== null) {
         options.onPick?.(detailNow);
-        host.dispatchEvent(new CustomEvent("bushu-pick", { detail: detailNow, bubbles: true }));
+        host.dispatchEvent(new CustomEvent("bushu-pick", { detail: detailNow, bubbles: true, composed: true }));
       }
     },
     chosen: () => [...chosen],

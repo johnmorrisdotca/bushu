@@ -1,9 +1,9 @@
 // Builds the static demo for GitHub Pages into ./site: the page, written here from the family's shared header and footer,
 // with the family's stylesheet, Bushu's own, the page's script and the compiled library beside it.
-import { cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, readFileSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 
 import { API_CSS, apiPage } from "./api.mjs";
-import { FAMILY_SCRIPT, familyFooter, familyHead, familyHeader, familyUnreviewed } from "./family-template.mjs";
+import { FAMILY_SCRIPT, FAMILY_EMBED_BUILDER_WORDS, familyEmbedBuilder, familyFooter, familyHead, familyHeader, familyUnreviewed } from "./family-template.mjs";
 
 const id = "bushu";
 const ICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232f5d4a'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23f3efe4'%3E部%3C/text%3E%3C/svg%3E";
@@ -80,3 +80,7 @@ writeFileSync("site/index.html", page);
 writeFileSync("site/api.css", API_CSS);
 writeFileSync("site/api.html", apiPage({ id, name: "Bushu", icon: ICON }));
 console.log("site/ is ready: serve it, or let the Pages workflow publish it.");
+
+writeFileSync("site/family-embed-builder.js", `export const FAMILY_EMBED_BUILDER_WORDS = ${JSON.stringify(FAMILY_EMBED_BUILDER_WORDS)};\nexport ${familyEmbedBuilder.toString()};\n`);
+const builderParts = { builderHead: familyHead({ id, title: "Bushu · build a radical picker embed", description: "Choose kanji radicals, preview a picker and copy its embed code." }), builderHeader: familyHeader({ id, links: [{ href: "./", say: "toGallery" }] }), unreviewed: familyUnreviewed({ id }), footer: familyFooter({ id }), script: `<script>${FAMILY_SCRIPT}</script>` };
+writeFileSync("site/builder.html", readFileSync("demo/builder.html", "utf8").replace(/<!-- family:([A-Za-z]+) -->/g, (_match, key) => builderParts[key]));
