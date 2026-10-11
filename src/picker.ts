@@ -92,6 +92,17 @@ function make<K extends keyof HTMLElementTagNameMap>(tag: K, className: string, 
   return element;
 }
 
+/** Native interface, settings and words for host code.
+ * @param host - The HTMLElement that owns the native interface.
+ * @param options - Native settings and callbacks for this mounted interface.
+ * @returns The native mounted handle, including controls and destroy() cleanup.
+ * @example
+ * ```ts
+ * import { mountBushu } from "@johnmorrisdotca/bushu/picker";
+ * const show = (host: HTMLElement, options: Parameters<typeof mountBushu>[1]) => mountBushu(host, options);
+ * console.log(typeof show); // function
+ * ```
+ */
 export function mountBushu(host: HTMLElement, options: BushuMountOptions): BushuMount {
   ensureBushuStyle(host.ownerDocument);
   const grid = withCorrectedStrokes(options.radicals);

@@ -25,11 +25,30 @@ import type { BushuLanguage } from "./strings.ts";
  */
 const ElementBase: typeof HTMLElement = typeof HTMLElement === "undefined" ? (class {} as unknown as typeof HTMLElement) : HTMLElement;
 
-/** Real mount options, checked alongside builder coverage. */
+/** Real mount options, checked alongside builder coverage.
+ * @example
+ * ```ts
+ * import { BUSHU_EMBED_OPTION_KEYS } from "@johnmorrisdotca/bushu/element";
+ * console.log(typeof BUSHU_EMBED_OPTION_KEYS); // object
+ * ```
+ */
 export const BUSHU_EMBED_OPTION_KEYS = Object.keys({ radicals: true, names: true, strokes: true, language: true, limit: true, chosen: true, kanji: true, onChange: true, onPick: true } satisfies Record<keyof BushuMountOptions, boolean>);
-/** Host data and callbacks. Attribute choices override the host's initial selection. */
+/** Host data and callbacks. Attribute choices override the host's initial selection.
+ * @example
+ * ```ts
+ * import type { BushuElementOptions } from "@johnmorrisdotca/bushu/element";
+ * const options: BushuElementOptions = {};
+ * console.log(Object.keys(options).length); // 0
+ * ```
+ */
 export type BushuElementOptions = Partial<BushuMountOptions>;
-/** A configurable radical picker with reflected presentation attributes. */
+/** A configurable radical picker with reflected presentation attributes.
+ * @example
+ * ```ts
+ * import { BushuPicker } from "@johnmorrisdotca/bushu/element";
+ * console.log(BushuPicker.observedAttributes.includes("lang")); // true
+ * ```
+ */
 export class BushuPicker extends ElementBase {
   static observedAttributes = ["lang", "parts", "kanji", "limit", "size", "width", "theme", "label"];
 
@@ -155,7 +174,17 @@ export class BushuPicker extends ElementBase {
   }
 }
 
-/** Defines the default picker or a subclass under a custom name. Safe on a server. */
+/** Defines the default picker or a subclass under a custom name. Safe on a server.
+ * @param tagName - The custom tag name; omitted to use the package default.
+ * @param registry - The custom-element registry; omitted outside a browser.
+ * @returns Nothing; existing definitions and server imports remain safe.
+ * @example
+ * ```ts
+ * import { definePicker } from "@johnmorrisdotca/bushu/element";
+ * definePicker();
+ * console.log(typeof definePicker); // function
+ * ```
+ */
 export function definePicker(tagName = "bushu-picker", registry: CustomElementRegistry | undefined = typeof customElements === "undefined" ? undefined : customElements): void {
   if (registry !== undefined && registry.get(tagName) === undefined) registry.define(tagName, tagName === "bushu-picker" ? BushuPicker : class extends BushuPicker {});
 }
