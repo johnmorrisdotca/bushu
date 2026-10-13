@@ -25,7 +25,7 @@ const page = `<!doctype html>
   <head>
     ${familyHead({
       id,
-      title: "Bushu · find a kanji by its parts",
+      title: "Bushu 部首 — Find kanji by their radicals",
       description: "Find a kanji by the parts you can see in it: choose parts from a grid of radicals by stroke count, and see every kanji that holds them all, with the parts that can no longer help dimmed. Names in English and the Japanese school names, free and open source, in English and Japanese.",
       ogTitle: "Bushu radical lookup",
       ogDescription: "Choose the parts you can see, and find the kanji. The multi-radical lookup, in a small open-source package.",
@@ -36,7 +36,7 @@ const page = `<!doctype html>
   </head>
   <body>
     <main>
-      ${familyHeader({ id, links: [{ href: "api.html", say: "pageApi" }] })}
+      ${familyHeader({ id, links: [{ href: "docs/index.html", say: "pageDocs" }, { href: "api.html", say: "pageApi" }] })}
       <section class="setup" aria-labelledby="find-title">
         <h2 id="find-title" data-say="findTitle"></h2>
         <div id="picker" data-testid="picker" data-help-en="Tap the parts you can see in the kanji, in any order. The kanji that hold all of them appear, and the parts that could not narrow them further are dimmed. Tap a chosen part to take it away." data-help-ja="漢字の中に見える部品を、順番は問わず選びます。選んだ部品をすべて含む漢字が出て、それ以上絞れない部品は薄くなります。選んだ部品をもう一度押すと、はずれます。" data-help-after></div>
@@ -82,5 +82,5 @@ writeFileSync("site/api.html", apiPage({ id, name: "Bushu", icon: ICON }));
 console.log("site/ is ready: serve it, or let the Pages workflow publish it.");
 
 writeFileSync("site/family-embed-builder.js", `export const FAMILY_EMBED_BUILDER_WORDS = ${JSON.stringify(FAMILY_EMBED_BUILDER_WORDS)};\nexport ${familyEmbedBuilder.toString()};\n`);
-const builderParts = { builderHead: familyHead({ id, title: "Bushu · build a radical picker embed", description: "Choose kanji radicals, preview a picker and copy its embed code." }), builderHeader: familyHeader({ id, links: [{ href: "./", say: "toGallery" }] }), unreviewed: familyUnreviewed({ id }), footer: familyFooter({ id }), script: `<script>${FAMILY_SCRIPT}</script>` };
+const builderParts = { builderHead: familyHead({ id, title: "Bushu 部首 — Find kanji by their radicals", description: "Choose kanji radicals, preview a picker and copy its embed code." }), builderHeader: familyHeader({ id, links: [{ href: "./", say: "toGallery" }, { href: "docs/index.html", say: "pageDocs" }, { href: "api.html", say: "pageApi" }] }), unreviewed: familyUnreviewed({ id }), footer: familyFooter({ id }), script: `<script>${FAMILY_SCRIPT}</script>` };
 writeFileSync("site/builder.html", readFileSync("demo/builder.html", "utf8").replace(/<!-- family:([A-Za-z]+) -->/g, (_match, key) => builderParts[key]));

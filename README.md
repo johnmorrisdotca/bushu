@@ -1,4 +1,4 @@
-<h1 align="center">Bushu <sub>部首</sub></h1>
+<h1 align="center">Bushu <sub>部首</sub> — Find kanji by their radicals</h1>
 
 <p align="center"><strong>Find a kanji by the parts it is made of, for JavaScript and TypeScript.</strong><br>
 Choose the parts you can see, and get every kanji that holds all of them, with the parts that could still narrow the search kept lit and the rest dimmed: the multi-radical lookup that dictionary sites have, as a small package. The 253 radicals and their 6,355 kanji from RADKFILE, the shapes people see (氵 for the 汁 the file keys it by), the names a Japanese school teaches (さんずい, にんべん), the strokes of every kanji, and a radical picker for any page, as a function call or a tag, in English and Japanese. No dependencies.</p>
@@ -9,9 +9,11 @@ Choose the parts you can see, and get every kanji that holds all of them, with t
   <a href="./NOTICE.md"><img alt="Code MIT; data CC BY-SA 4.0 and CC BY 4.0" src="https://img.shields.io/badge/licence-MIT%20code%2C%20CC%20BY--SA%20data-2f5d4a"></a>
   <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-0-2f5d4a">
   <img alt="TypeScript" src="https://img.shields.io/badge/types-TypeScript-3178c6">
+  <a href="https://johnmorrisdotca.github.io/bushu/docs/api/main/index.html"><img alt="0.9 kB minified and gzipped" src="https://img.shields.io/badge/min%2Bgzip-0.9%20kB-2f5d4a"></a>
+  <a href="https://www.npmjs.com/package/@johnmorrisdotca/bushu#provenance"><img alt="Published with npm provenance" src="https://img.shields.io/badge/npm-provenance-2f5d4a"></a>
 </p>
 
-<p align="center"><a href="https://johnmorrisdotca.github.io/bushu/"><strong>Find a kanji →</strong></a> · <a href="https://johnmorrisdotca.github.io/bushu/api.html">API reference</a></p>
+<p align="center"><a href="https://johnmorrisdotca.github.io/bushu/"><strong>Find a kanji →</strong></a> · <a href="https://johnmorrisdotca.github.io/bushu/docs/">Documentation</a> · <a href="https://johnmorrisdotca.github.io/bushu/docs/guides/getting-started.html">Getting started</a> · <a href="https://johnmorrisdotca.github.io/bushu/api.html">API reference</a></p>
 
 <table align="center">
 <tr>
@@ -135,6 +137,17 @@ Each picture is the real picker, drawn by the package and taken from [the demo](
 </table>
 
 ## Use it in your project
+
+### Install under another name
+
+```sh
+npm install kanji@npm:@johnmorrisdotca/bushu
+```
+
+```ts no-check
+import { radicalForm } from "kanji";
+console.log(radicalForm("汁"));
+```
 
 ### Install
 
@@ -487,6 +500,8 @@ Attributes, each read again when it changes: `lang`, `parts`, `kanji` and `limit
 
 ## API
 
+The [documentation](https://johnmorrisdotca.github.io/bushu/docs/) provides paired guides, local search and checked examples. The [API index](https://johnmorrisdotca.github.io/bushu/api.html) retains export anchors.
+
 Every export of every entry point, with its signature and its doc comment, is in the
 [API reference](https://johnmorrisdotca.github.io/bushu/api.html), made from the source when the site is built so it cannot fall behind the code.
 
@@ -587,31 +602,7 @@ The demo has a chooser of its own and takes the browser's language on a first vi
 
 ## Architecture
 
-The search is plain functions over the radicals handed to them, with no DOM and no data of their own. The data is three entries of its own, so a page loads only what it shows. The page's part (the picker and the element) is another entry.
-
-```text
-src/
-├── index.ts          the main entry: the lookup and the shapes, without the data or the page
-├── types.ts          a radical
-├── radicals.ts       the lookup: the grid by strokes, kanji for parts, the parts still usable, a kanji's parts
-├── forms.ts          the shapes behind RADKFILE's stand-ins, and the two corrected stroke counts
-├── names.ts          the "/names" entry: the school names of the radicals, by key and by shape
-├── strokes.ts        the "/strokes" entry: the strokes of a kanji, and sorting by them
-├── version.ts        the package's version
-├── strings.ts        the picker's words, in English and Japanese
-├── style.ts          the picker's style: its colours as custom properties, its boxes and its tiles
-├── picker.ts         mountBushu: draws the picker into an element and plays it, with its words and events
-├── load.ts           loadBushuData: the radicals, the names and the strokes, each loaded when asked for
-├── picker-entry.ts   the "/picker" entry: the picker, its words and its style
-├── element.ts        the "/element" entry: the <bushu-picker> class
-├── element-define.ts the "/element/define" entry: defines the tag on the page
-└── data/
-    ├── radkfile.data.ts  the "/radkfile" entry: the 253 radicals and their kanji, from RADKFILE and KRADFILE
-    ├── strokes.data.ts   the strokes of the 6,355 kanji, from KANJIDIC2
-    └── names.data.ts     the school names of 227 radicals, from Kanji alive
-```
-
-Tests sit beside the code they test (`*.test.ts`). `scripts/` makes the data, builds the demo and its API reference page, takes the pictures and checks the package as npm packs it; `demo/` is the page, and `e2e/` its browser tests.
+The lookup, generated data and browser picker are explained in the [architecture guide](docs/guides/architecture.md), with the full original source tree and build description preserved there.
 
 ## The name
 
@@ -696,6 +687,8 @@ pnpm install
 pnpm check          # lint, types and every test
 pnpm test:package   # pack, install and import it as somebody who installed it would
 pnpm test:demo      # build the demo and play it in a real browser, at a phone's width and a desk's
+pnpm docs:check     # typecheck and run the API and guide examples
+pnpm docs:site      # build the docs and local search index
 pnpm site           # build the demo into site/, as the Pages workflow publishes it
 pnpm test:readme    # type-check and run every example in this README against the built package
 pnpm screenshots:readme   # build the demo and retake the pictures in docs/images

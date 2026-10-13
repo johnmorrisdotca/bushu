@@ -6,6 +6,7 @@ import { loadBushuData, mountBushu } from "./dist/picker-entry.js";
 // The page's own words, in the two languages it speaks. Set as text, never as HTML.
 const WORDS = {
   en: {
+    pageDocs: "Docs",
     pageApi: "API reference",
     pitch: "Find a kanji by the parts you can see in it. Choose parts from the grid, and every kanji that holds all of them appears, while the parts that could not help any more are dimmed.",
     name: "Bushu (部首) is Japanese for radical: 部, a section, and 首, the head, the part a dictionary files a kanji under.",
@@ -28,6 +29,7 @@ const WORDS = {
     foot: "The radicals and their kanji are RADKFILE, the strokes are KANJIDIC2 (both EDRDG, CC BY-SA 4.0), and the school names are Kanji alive (CC BY 4.0). Your choices stay on this device.",
   },
   ja: {
+    pageDocs: "ドキュメント",
     pageApi: "API（英語）",
     pitch: "漢字の中に見える部品から、その漢字を探します。グリッドから部品を選ぶと、すべての部品を含む漢字が出て、それ以上役に立たない部品は薄くなります。",
     name: "「部首」は、辞書が漢字を分類するときの目印になる部分のことです。",
@@ -81,7 +83,7 @@ const settings = {
 let chosen = params.has("parts") ? [...params.get("parts")].filter((one) => one.trim() !== "") : (kept.chosen ?? []);
 let kanji = params.get("kanji") ?? null;
 
-const language = familyLanguage({ id: "bushu", words: WORDS, onChange: () => render() });
+const language = familyLanguage({ id: "bushu", words: WORDS, onChange: () => { docsLink(); render(); } });
 const say = (key) => WORDS[language.lang][key];
 const keep = () => write({ ...settings, chosen });
 
@@ -139,3 +141,6 @@ document.getElementById("kanji-input").addEventListener("input", (event) => {
 render();
 if (kanji !== null) document.getElementById("kanji-input").value = kanji;
 host.dataset.ready = "true";
+
+function docsLink(){document.querySelector('[data-say="pageDocs"]')?.setAttribute("href",language.lang==="ja"?"docs/ja/index.html":"docs/index.html");}
+docsLink();

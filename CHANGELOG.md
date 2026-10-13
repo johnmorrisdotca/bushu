@@ -6,6 +6,8 @@ All notable changes to this project are written here. The format follows
 
 ## [Unreleased]
 
+- Add the bilingual documentation site, checked public examples, paired guides, local search and machine-readable pages.
+
 - Add the shared embed builder, validated iframe route, reflected presentation options and host data/callback options. Preserve picker methods and lazy data loading; native events now cross shadow roots.
 
 
