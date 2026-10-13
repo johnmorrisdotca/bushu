@@ -140,6 +140,13 @@ const text = `/**
  *
  * ${Object.keys(named).length} of RADKFILE's ${RADKFILE.radicals.length} radicals have a name; the other ${unnamed.length} are components no school lists as a radical, and are left out rather than guessed.
  * Keyed by the RADKFILE key, as everything about a radical is, so a stand-in is looked up as written: 汁 answers さんずい.
+ *
+ * @example
+ * \`\`\`ts
+ * import { RADICAL_NAMES } from "@johnmorrisdotca/bushu/names";
+ *
+ * console.log(Object.keys(RADICAL_NAMES.names).length);
+ * \`\`\`
  */
 export const RADICAL_NAMES: {
   /** What this was made from: the commit of Kanji alive's repository, the two files read, and the date this was made. */

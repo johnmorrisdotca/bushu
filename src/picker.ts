@@ -19,10 +19,29 @@ import type { Radical } from "./types.ts";
  * Needs a page. Nothing the player taps can be selected; the kanji in the card can, to copy it.
  */
 
-/** The names a picker shows beside a radical: what `radicalNameEntry` from `/names` returns. */
+/** The names a picker shows beside a radical: what `radicalNameEntry` from `/names` returns.
+ *
+ * @example
+ * ```ts
+ * import type { BushuNameEntry } from "@johnmorrisdotca/bushu/picker";
+ * import { radicalNameEntry } from "@johnmorrisdotca/bushu/names";
+ *
+ * const value: BushuNameEntry = radicalNameEntry("汁")!;
+ * console.log(value);
+ * ```
+ */
 export type BushuNameEntry = { readonly name: string; readonly meaning: string };
 
-/** What a picker tells of itself, in `bushu-change` and `bushu-pick` events and to the callbacks. */
+/** What a picker tells of itself, in `bushu-change` and `bushu-pick` events and to the callbacks.
+ *
+ * @example
+ * ```ts
+ * import type { BushuEventDetail } from "@johnmorrisdotca/bushu/picker";
+ *
+ * const value: BushuEventDetail = {chosen:["汁"],matches:2,kanji:null,parts:[]};
+ * console.log(value);
+ * ```
+ */
 export type BushuEventDetail = {
   /** The parts chosen, as RADKFILE's keys, in the grid's order. */
   chosen: string[];
@@ -34,6 +53,19 @@ export type BushuEventDetail = {
   parts: string[];
 };
 
+/**
+ * The native radical data, optional names/strokes, language, result limit, initial selection and host callbacks.
+ *
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import type { BushuMountOptions } from "@johnmorrisdotca/bushu/picker";
+ *
+ * const radicals = RADKFILE.radicals;
+ * const value: BushuMountOptions = {radicals,language:"ja",chosen:["汁"],limit:60};
+ * console.log(value);
+ * ```
+ */
 export type BushuMountOptions = {
   /** The radicals: `RADKFILE.radicals` from `@johnmorrisdotca/bushu/radkfile`. */
   radicals: readonly Radical[];
@@ -53,7 +85,23 @@ export type BushuMountOptions = {
   onPick?: (detail: BushuEventDetail) => void;
 };
 
-/** What `mountBushu` gives back: methods for everything a button does, and `destroy`. */
+/** What `mountBushu` gives back: methods for everything a button does, and `destroy`.
+ *
+ * @example
+ * ```ts no-run
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import type { BushuMount } from "@johnmorrisdotca/bushu/picker";
+ * import { mountBushu } from "@johnmorrisdotca/bushu/picker";
+ *
+ * const radicals = RADKFILE.radicals;
+ * const host=document.createElement("div");
+ * document.body.append(host);
+ * const picker: BushuMount=mountBushu(host,{radicals,language:"ja"});
+ * picker.toggle("汁");
+ * console.log(picker.chosen(),picker.matches().length);
+ * picker.destroy();
+ * ```
+ */
 export type BushuMount = {
   /** Choose a part, by its RADKFILE key or by its shape (氵 for 汁), or take it away if it is chosen. A part that cannot narrow anything, or is not in the index, is left alone. */
   toggle(radical: string): void;
@@ -72,10 +120,28 @@ export type BushuMount = {
   destroy(): void;
 };
 
-/** The most matches a picker draws unless `limit` says. */
+/** The most matches a picker draws unless `limit` says.
+ *
+ * @example
+ * ```ts
+ * import { BUSHU_RESULT_LIMIT } from "@johnmorrisdotca/bushu/picker";
+ *
+ * console.log(BUSHU_RESULT_LIMIT);
+ * ```
+ */
 export const BUSHU_RESULT_LIMIT = 120;
 
-/** Puts the picker's style in the page once. Called by `mountBushu`; call it yourself to share one style with your own markup. */
+/** Puts the picker's style in the page once. Called by `mountBushu`; call it yourself to share one style with your own markup.
+ *
+ * @param document - The browser document whose head receives the native picker styles.
+ * @example
+ * ```ts no-run
+ * import { ensureBushuStyle } from "@johnmorrisdotca/bushu/picker";
+ *
+ * ensureBushuStyle(document);
+ * console.log(document.getElementById("bushu-style")!==null);
+ * ```
+ */
 export function ensureBushuStyle(document: Document = globalThis.document): void {
   if (document.getElementById("bushu-style") !== null) return;
   const style = document.createElement("style");

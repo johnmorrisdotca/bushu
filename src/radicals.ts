@@ -14,10 +14,34 @@ import type { Radical } from "./types.ts";
  * Every function takes the radicals as an argument (they are in `@johnmorrisdotca/bushu/radkfile`), reads them and never changes them.
  */
 
-/** The radicals that share a stroke count, as the grid of a picker draws them. */
+/** The radicals that share a stroke count, as the grid of a picker draws them.
+ *
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import type { RadicalGroup } from "@johnmorrisdotca/bushu";
+ * import { radicalGroups } from "@johnmorrisdotca/bushu";
+ *
+ * const radicals = RADKFILE.radicals;
+ * const value: RadicalGroup = radicalGroups(radicals)[0];
+ * console.log(value);
+ * ```
+ */
 export type RadicalGroup = { strokes: number; radicals: string[] };
 
-/** The grid: the radicals in stroke-count order, grouped by the count, in the order they were given within a count. */
+/** The grid: the radicals in stroke-count order, grouped by the count, in the order they were given within a count.
+ *
+ * @param radicals - The native radical entries; these inputs are read without mutation.
+ * @returns The grid: the radicals in stroke-count order, grouped by the count, in the order they were given within a count.
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import { radicalGroups } from "@johnmorrisdotca/bushu";
+ *
+ * const radicals = RADKFILE.radicals;
+ * console.log(radicalGroups(radicals).slice(0,2).map(group=>[group.strokes,group.radicals.length]));
+ * ```
+ */
 export function radicalGroups(radicals: readonly Radical[]): RadicalGroup[] {
   const groups = new Map<number, string[]>();
   for (const entry of radicals) {
@@ -33,6 +57,18 @@ export function radicalGroups(radicals: readonly Radical[]): RadicalGroup[] {
  *
  * Nothing chosen means nothing to show: the whole dictionary is not an answer to a question nobody has asked yet. A radical that
  * is not in the list cannot be satisfied, so the answer is nothing.
+ *
+ * @param radicals - The native radical entries; these inputs are read without mutation.
+ * @param chosen - Chosen RADKFILE keys, interpreted as an intersection of all chosen parts.
+ * @returns The kanji that hold every one of the chosen radicals, in the order of the first radical's list (the dictionary's own).
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import { kanjiForRadicals } from "@johnmorrisdotca/bushu";
+ *
+ * const radicals = RADKFILE.radicals;
+ * console.log(kanjiForRadicals(radicals,["汁","田"]).slice(0,5));
+ * ```
  */
 export function kanjiForRadicals(radicals: readonly Radical[], chosen: readonly string[]): string[] {
   if (chosen.length === 0) return [];
@@ -48,6 +84,18 @@ export function kanjiForRadicals(radicals: readonly Radical[], chosen: readonly 
  *
  * A radical in none of the remaining kanji is a dead end, which a picker dims rather than let you click your way to an empty list.
  * The chosen ones stay in the set: taking one back must always be possible. With nothing chosen, every radical can.
+ *
+ * @param radicals - The native radical entries; these inputs are read without mutation.
+ * @param chosen - Chosen RADKFILE keys, interpreted as an intersection of all chosen parts.
+ * @returns The radicals that can still narrow what is left: every one that appears in at least one of the kanji that match now.
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import { usableRadicals } from "@johnmorrisdotca/bushu";
+ *
+ * const radicals = RADKFILE.radicals;
+ * console.log(usableRadicals(radicals,["汁","田"]).has("汁"));
+ * ```
  */
 export function usableRadicals(radicals: readonly Radical[], chosen: readonly string[]): Set<string> {
   if (chosen.length === 0) return new Set(radicals.map((entry) => entry.radical));
@@ -66,7 +114,20 @@ export function usableRadicals(radicals: readonly Radical[], chosen: readonly st
   return usable;
 }
 
-/** The chosen radicals in the grid's own order, not the order they were clicked, so the choice reads as a row of the grid. A radical the grid does not have is dropped. */
+/** The chosen radicals in the grid's own order, not the order they were clicked, so the choice reads as a row of the grid. A radical the grid does not have is dropped.
+ *
+ * @param radicals - The native radical entries; these inputs are read without mutation.
+ * @param chosen - Chosen RADKFILE keys, interpreted as an intersection of all chosen parts.
+ * @returns The chosen radicals in the grid's own order, not the order they were clicked, so the choice reads as a row of the grid. A radical the grid does not have is dropped.
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import { orderChosen } from "@johnmorrisdotca/bushu";
+ *
+ * const radicals = RADKFILE.radicals;
+ * console.log(orderChosen(radicals,["田","汁"]));
+ * ```
+ */
 export function orderChosen(radicals: readonly Radical[], chosen: readonly string[]): string[] {
   const order = new Map(radicals.map((entry, index) => [entry.radical, index]));
   return [...chosen].filter((radical) => order.has(radical)).sort((left, right) => order.get(left)! - order.get(right)!);
@@ -79,6 +140,18 @@ export function orderChosen(radicals: readonly Radical[], chosen: readonly strin
  * page asks the opposite question, and a membership test per radical answers it, which is nothing next to keeping a second copy
  * of the index the other way round. Simplest parts first, so the list reads the way the character is built up. Code point order
  * breaks a tie, never a locale's collation, so the same character lists its parts in the same order on every machine.
+ *
+ * @param radicals - The native radical entries; these inputs are read without mutation.
+ * @param kanji - The kanji to look up, or the supplied kanji list where the signature requires an array.
+ * @returns The radicals a character is written with, fewest strokes first.
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ * import { radicalsInKanji } from "@johnmorrisdotca/bushu";
+ *
+ * const radicals = RADKFILE.radicals;
+ * console.log(radicalsInKanji(radicals,"海").map(part=>part.radical));
+ * ```
  */
 export function radicalsInKanji(radicals: readonly Radical[], kanji: string): Radical[] {
   if (kanji.length === 0) return [];

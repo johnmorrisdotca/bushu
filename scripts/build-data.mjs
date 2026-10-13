@@ -87,6 +87,14 @@ const radkfileText = `import type { Radical } from "../types.ts";
  * holds the shape (汁 for 氵): \`radicalForm\` says the shape. KRADFILE, which lists the same thing kanji by kanji, was checked to
  * agree with RADKFILE on every one of the ${kradfile.kanji.size} kanji before this was written. \`unicode\` is the character EDRDG means by a stand-in,
  * from KRADFILE's header.
+ *
+ * @example
+ * \`\`\`ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ *
+ * const radicals = RADKFILE.radicals;
+ * console.log(RADKFILE.radicals.length);
+ * \`\`\`
  */
 export const RADKFILE: {
   /** What this was made from: each file's address, SHA-256 (of the file as served, gzipped) and the date this was made, and the date the file gives itself. */
@@ -116,6 +124,13 @@ const strokesText = `/**
  *
  * ${kanjidic.strokes.size} kanji, grouped by their stroke count so that a count is one string; where KANJIDIC2 lists more
  * than one count for a kanji, this is the first, the accepted one.
+ *
+ * @example
+ * \`\`\`ts
+ * import { KANJI_STROKES } from "@johnmorrisdotca/bushu/strokes";
+ *
+ * console.log(Object.keys(KANJI_STROKES.byStrokes).length);
+ * \`\`\`
  */
 export const KANJI_STROKES: {
   /** What this was made from: the file's address, SHA-256 (of the file as served, gzipped), the date this was made, and what the file says of itself. */

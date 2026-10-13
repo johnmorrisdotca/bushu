@@ -3,9 +3,27 @@
  * Plain data, so a page can read them, replace a few, or add a language of its own beside these two.
  *
  * `{name}` in a line is a value filled in; a line `foo` that has a `fooOne` beside it is said as `fooOne` when its `{n}` is 1.
+ *
+ * @example
+ * ```ts
+ * import type { BushuLanguage } from "@johnmorrisdotca/bushu/picker";
+ *
+ * const value: BushuLanguage = "ja";
+ * console.log(value);
+ * ```
  */
 export type BushuLanguage = "en" | "ja";
 
+/**
+ * Native English and Japanese radical-picker controls, results and accessible announcements.
+ *
+ * @example
+ * ```ts
+ * import { BUSHU_STRINGS } from "@johnmorrisdotca/bushu/picker";
+ *
+ * console.log(BUSHU_STRINGS.ja.pickerLabel);
+ * ```
+ */
 export const BUSHU_STRINGS: Record<BushuLanguage, Record<string, string>> = {
   en: {
     pickerLabel: "Find a kanji by its parts",
@@ -61,12 +79,34 @@ export const BUSHU_STRINGS: Record<BushuLanguage, Record<string, string>> = {
   },
 };
 
-/** The language a `lang` attribute asks for: Japanese for any `ja`, English for everything else. */
+/** The language a `lang` attribute asks for: Japanese for any `ja`, English for everything else.
+ *
+ * @param tag - A language tag; Japanese tags select ja and all other tags select en.
+ * @returns The language a `lang` attribute asks for: Japanese for any `ja`, English for everything else.
+ * @example
+ * ```ts
+ * import { bushuLanguageOf } from "@johnmorrisdotca/bushu/picker";
+ *
+ * console.log(bushuLanguageOf("ja-JP"));
+ * ```
+ */
 export function bushuLanguageOf(tag: string | null | undefined): BushuLanguage {
   return String(tag ?? "").toLowerCase().startsWith("ja") ? "ja" : "en";
 }
 
-/** A line in a language, with its `{name}` values filled in, and its `One` form when `n` is 1. */
+/** A line in a language, with its `{name}` values filled in, and its `One` form when `n` is 1.
+ *
+ * @param language - The native English or Japanese picker language.
+ * @param key - The native localized-message key, such as found.
+ * @param values - Replacement values for brace-delimited native message placeholders.
+ * @returns A line in a language, with its `{name}` values filled in, and its `One` form when `n` is 1.
+ * @example
+ * ```ts
+ * import { bushuSay } from "@johnmorrisdotca/bushu/picker";
+ *
+ * console.log(bushuSay("en","found",{n:2}));
+ * ```
+ */
 export function bushuSay(language: BushuLanguage, key: string, values: Record<string, string | number> = {}): string {
   const table = BUSHU_STRINGS[language];
   const one = values["n"] === 1 && `${key}One` in table ? `${key}One` : key;

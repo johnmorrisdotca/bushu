@@ -13,6 +13,14 @@ import type { Radical } from "../types.ts";
  * holds the shape (汁 for 氵): `radicalForm` says the shape. KRADFILE, which lists the same thing kanji by kanji, was checked to
  * agree with RADKFILE on every one of the 6355 kanji before this was written. `unicode` is the character EDRDG means by a stand-in,
  * from KRADFILE's header.
+ *
+ * @example
+ * ```ts
+ * import { RADKFILE } from "@johnmorrisdotca/bushu/radkfile";
+ *
+ * const radicals = RADKFILE.radicals;
+ * console.log(RADKFILE.radicals.length);
+ * ```
  */
 export const RADKFILE: {
   /** What this was made from: each file's address, SHA-256 (of the file as served, gzipped) and the date this was made, and the date the file gives itself. */

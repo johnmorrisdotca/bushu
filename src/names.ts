@@ -9,6 +9,15 @@ import { radicalForm } from "./forms.ts";
  *
  * Keyed by the RADKFILE key, as everything about a radical is, so a stand-in is looked up as written: 汁 answers さんずい. The names
  * are a plain import, so a page that draws a radical's name draws it with no request.
+ *
+ * @example
+ * ```ts
+ * import type { RadicalNameEntry } from "@johnmorrisdotca/bushu/names";
+ * import { radicalNameEntry } from "@johnmorrisdotca/bushu/names";
+ *
+ * const value: RadicalNameEntry = radicalNameEntry("汁")!;
+ * console.log(value);
+ * ```
  */
 export type RadicalNameEntry = {
   /** The name, in hiragana. */
@@ -26,12 +35,32 @@ export { RADICAL_NAMES } from "./data/names.data.ts";
 
 const NAMES: Readonly<Record<string, RadicalNameEntry>> = RADICAL_NAMES.names;
 
-/** The Japanese name of a RADKFILE radical, in hiragana, or null where no school names it. */
+/** The Japanese name of a RADKFILE radical, in hiragana, or null where no school names it.
+ *
+ * @param key - The RADKFILE radical key; use the key even when its displayed shape is a stand-in.
+ * @returns The Japanese radical name, or null when the school-name table has no name for this key.
+ * @example
+ * ```ts
+ * import { radicalName } from "@johnmorrisdotca/bushu/names";
+ *
+ * console.log(radicalName("汁"));
+ * ```
+ */
 export function radicalName(key: string): string | null {
   return NAMES[key]?.name ?? null;
 }
 
-/** Everything Kanji alive says about a RADKFILE radical: its name, romaji, English meaning, position and Kangxi number. Null where it says nothing. */
+/** Everything Kanji alive says about a RADKFILE radical: its name, romaji, English meaning, position and Kangxi number. Null where it says nothing.
+ *
+ * @param key - The RADKFILE radical key; use the key even when its displayed shape is a stand-in.
+ * @returns The native name, meaning, position and Kangxi metadata, or null when this key is unnamed.
+ * @example
+ * ```ts
+ * import { radicalNameEntry } from "@johnmorrisdotca/bushu/names";
+ *
+ * console.log(radicalNameEntry("汁")?.meaning);
+ * ```
+ */
 export function radicalNameEntry(key: string): RadicalNameEntry | null {
   return NAMES[key] ?? null;
 }
@@ -50,12 +79,31 @@ const BY_SHAPE: ReadonlyMap<string, RadicalNameEntry> = (() => {
   return byShape;
 })();
 
-/** The Japanese name of a radical drawn as this shape, or null. 阝 is on both sides of a character and the first of its two names answers (おおざと). */
+/** The Japanese name of a radical drawn as this shape, or null. 阝 is on both sides of a character and the first of its two names answers (おおざと).
+ *
+ * @param shape - The displayed radical shape, or a key accepted by the shape index.
+ * @returns The first school name for the displayed shape, or null when no shape is named; 阝 uses the first matching entry.
+ * @example
+ * ```ts
+ * import { radicalNameForShape } from "@johnmorrisdotca/bushu/names";
+ *
+ * console.log(radicalNameForShape("氵"));
+ * ```
+ */
 export function radicalNameForShape(shape: string): string | null {
   return BY_SHAPE.get(shape)?.name ?? null;
 }
 
-/** How many of the radicals carry a Japanese name. */
+/** How many of the radicals carry a Japanese name.
+ *
+ * @returns How many of the radicals carry a Japanese name.
+ * @example
+ * ```ts
+ * import { radicalNameCount } from "@johnmorrisdotca/bushu/names";
+ *
+ * console.log(radicalNameCount());
+ * ```
+ */
 export function radicalNameCount(): number {
   return Object.keys(NAMES).length;
 }

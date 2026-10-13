@@ -6,6 +6,13 @@
  * Nothing moves when something is chosen: the line of chosen parts, the line of words, the list of matches, the kanji's card and the grid
  * each keep one height whatever is in them, a long list scrolls inside its box, and every button is at least 44 pixels square. The tiles
  * cannot be selected; the kanji in the card can, so that it can be copied.
+ *
+ * @example
+ * ```ts
+ * import { BUSHU_STYLE } from "@johnmorrisdotca/bushu/picker";
+ *
+ * console.log(BUSHU_STYLE.length);
+ * ```
  */
 export const BUSHU_STYLE = `
 .bushu {

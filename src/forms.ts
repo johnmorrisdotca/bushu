@@ -17,6 +17,13 @@ import type { Radical } from "./types.ts";
  *
  * Both 邦 and 阡 come out as 阝, which is right: it is the same shape on the right of 部 and on the left of 陸, and RADKFILE
  * keeps two keys because the two kanji lists differ. The name tells them apart (おおざと and こざとへん).
+ *
+ * @example
+ * ```ts
+ * import { RADICAL_FORMS } from "@johnmorrisdotca/bushu";
+ *
+ * console.log(RADICAL_FORMS["汁"]);
+ * ```
  */
 export const RADICAL_FORMS: Readonly<Record<string, string>> = {
   // Two strokes.
@@ -52,12 +59,32 @@ export const RADICAL_FORMS: Readonly<Record<string, string>> = {
   ノ: "丿",
 };
 
-/** The shape to draw for a RADKFILE key: the stand-in's own shape (汁 gives 氵), or the key itself where it already is the shape. */
+/** The shape to draw for a RADKFILE key: the stand-in's own shape (汁 gives 氵), or the key itself where it already is the shape.
+ *
+ * @param key - The RADKFILE radical key; use the key even when its displayed shape is a stand-in.
+ * @returns The shape to draw for a RADKFILE key: the stand-in's own shape (汁 gives 氵), or the key itself where it already is the shape.
+ * @example
+ * ```ts
+ * import { radicalForm } from "@johnmorrisdotca/bushu";
+ *
+ * console.log(radicalForm("汁"));
+ * ```
+ */
 export function radicalForm(key: string): string {
   return RADICAL_FORMS[key] ?? key;
 }
 
-/** True when the key is a stand-in, so that the form, not the key, is the thing to draw and to name. */
+/** True when the key is a stand-in, so that the form, not the key, is the thing to draw and to name.
+ *
+ * @param key - The RADKFILE radical key; use the key even when its displayed shape is a stand-in.
+ * @returns True when the key is a stand-in, so that the form, not the key, is the thing to draw and to name.
+ * @example
+ * ```ts
+ * import { isRadicalStandIn } from "@johnmorrisdotca/bushu";
+ *
+ * console.log(isRadicalStandIn("汁"));
+ * ```
+ */
 export function isRadicalStandIn(key: string): boolean {
   return key in RADICAL_FORMS;
 }
@@ -71,18 +98,46 @@ export function isRadicalStandIn(key: string): boolean {
  *
  * Kept here, applied on reading (`radicalStrokes`, `withCorrectedStrokes`) and never edited into the data, so a rebuild
  * from RADKFILE cannot bring the two back.
+ *
+ * @example
+ * ```ts
+ * import { RADKFILE_STROKE_CORRECTIONS } from "@johnmorrisdotca/bushu";
+ *
+ * console.log(RADKFILE_STROKE_CORRECTIONS["乞"]);
+ * ```
  */
 export const RADKFILE_STROKE_CORRECTIONS: Readonly<Record<string, number>> = {
   乞: 3,
   舛: 6,
 };
 
-/** The stroke count to file a RADKFILE radical under: its own, except for the two it miscounts. */
+/** The stroke count to file a RADKFILE radical under: its own, except for the two it miscounts.
+ *
+ * @param key - The RADKFILE radical key; use the key even when its displayed shape is a stand-in.
+ * @param radkfileStrokes - The original stroke count supplied by RADKFILE.
+ * @returns The stroke count to file a RADKFILE radical under: its own, except for the two it miscounts.
+ * @example
+ * ```ts
+ * import { radicalStrokes } from "@johnmorrisdotca/bushu";
+ *
+ * console.log(radicalStrokes("乞",2));
+ * ```
+ */
 export function radicalStrokes(key: string, radkfileStrokes: number): number {
   return RADKFILE_STROKE_CORRECTIONS[key] ?? radkfileStrokes;
 }
 
-/** The radicals with the two miscounts put right, as new entries in the same order. Hand it to everything that groups by strokes. */
+/** The radicals with the two miscounts put right, as new entries in the same order. Hand it to everything that groups by strokes.
+ *
+ * @param radicals - The native radical entries; these inputs are read without mutation.
+ * @returns The radicals with the two miscounts put right, as new entries in the same order. Hand it to everything that groups by strokes.
+ * @example
+ * ```ts
+ * import { withCorrectedStrokes } from "@johnmorrisdotca/bushu";
+ *
+ * console.log(withCorrectedStrokes([{radical:"乞",strokes:2,kanji:"乞"}])[0].strokes);
+ * ```
+ */
 export function withCorrectedStrokes(radicals: readonly Radical[]): Radical[] {
   return radicals.map((entry) => ({ ...entry, strokes: radicalStrokes(entry.radical, entry.strokes) }));
 }

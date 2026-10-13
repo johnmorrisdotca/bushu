@@ -12,7 +12,17 @@ const COUNTS: ReadonlyMap<string, number> = (() => {
   return counts;
 })();
 
-/** The strokes in a kanji, or null for a character the index does not hold. */
+/** The strokes in a kanji, or null for a character the index does not hold.
+ *
+ * @param kanji - The kanji to look up, or the supplied kanji list where the signature requires an array.
+ * @returns The native kanji stroke count, or null when the character is absent from the index.
+ * @example
+ * ```ts
+ * import { strokesOf } from "@johnmorrisdotca/bushu/strokes";
+ *
+ * console.log(strokesOf("海"));
+ * ```
+ */
 export function strokesOf(kanji: string): number | null {
   return COUNTS.get(kanji) ?? null;
 }
@@ -20,6 +30,15 @@ export function strokesOf(kanji: string): number | null {
 /**
  * The kanji with the fewest strokes first; kanji with the same count keep the order they were given in, and a character with no count goes last.
  * A new array: what was given is not changed.
+ *
+ * @param kanji - The kanji to look up, or the supplied kanji list where the signature requires an array.
+ * @returns The kanji with the fewest strokes first; kanji with the same count keep the order they were given in, and a character with no count goes last. A new array: what was given is not changed.
+ * @example
+ * ```ts
+ * import { sortByStrokes } from "@johnmorrisdotca/bushu/strokes";
+ *
+ * console.log(sortByStrokes(["海","一","水"]));
+ * ```
  */
 export function sortByStrokes(kanji: readonly string[]): string[] {
   return kanji

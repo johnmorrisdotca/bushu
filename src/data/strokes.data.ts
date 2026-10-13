@@ -8,6 +8,13 @@
  *
  * 6355 kanji, grouped by their stroke count so that a count is one string; where KANJIDIC2 lists more
  * than one count for a kanji, this is the first, the accepted one.
+ *
+ * @example
+ * ```ts
+ * import { KANJI_STROKES } from "@johnmorrisdotca/bushu/strokes";
+ *
+ * console.log(Object.keys(KANJI_STROKES.byStrokes).length);
+ * ```
  */
 export const KANJI_STROKES: {
   /** What this was made from: the file's address, SHA-256 (of the file as served, gzipped), the date this was made, and what the file says of itself. */
