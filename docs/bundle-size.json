@@ -3,31 +3,31 @@
   "entries": {
     ".": {
       "minified": 1788,
-      "gzip": 894
+      "gzip": 902
     },
     "./radkfile": {
       "minified": 164646,
-      "gzip": 60375
+      "gzip": 60013
     },
     "./names": {
       "minified": 23488,
-      "gzip": 5638
+      "gzip": 5624
     },
     "./strokes": {
       "minified": 38962,
-      "gzip": 16554
+      "gzip": 17087
     },
     "./picker": {
       "minified": 242923,
-      "gzip": 89057
+      "gzip": 89726
     },
     "./element": {
       "minified": 248568,
-      "gzip": 90914
+      "gzip": 91698
     },
     "./element/define": {
       "minified": 248573,
-      "gzip": 90918
+      "gzip": 91706
     }
   }
 }

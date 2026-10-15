@@ -1,6 +1,6 @@
 {
   "name": "@johnmorrisdotca/bushu",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Bushu 部首 — Find kanji by their radicals: intersect chosen RADKFILE parts, use Japanese radical names and kanji stroke counts, and mount an English/Japanese picker. 253 radicals and their 6,355 kanji. Zero dependencies.",
   "keywords": [
     "browser",

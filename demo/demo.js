@@ -7,7 +7,7 @@ import { loadBushuData, mountBushu } from "./dist/picker-entry.js";
 const WORDS = {
   en: {
     pageDocs: "Docs",
-    pageApi: "API reference",
+    pageApi: "API",
     pitch: "Find a kanji by the parts you can see in it. Choose parts from the grid, and every kanji that holds all of them appears, while the parts that could not help any more are dimmed.",
     name: "Bushu (部首) is Japanese for radical: 部, a section, and 首, the head, the part a dictionary files a kanji under.",
     nameLink: "About the name",

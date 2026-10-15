@@ -35,4 +35,4 @@ Tests sit beside the code they test (`*.test.ts`). `scripts/` makes the data, bu
 
 ## Data and documentation
 
-The bundled index, names and strokes retain their source metadata and licence notices. New generated-data example comments are emitted by the existing data/name writers, so a future refresh preserves the documentation. This rollout did not fetch or regenerate upstream data. The shared docs build creates reference pages, Markdown twins and a local Pagefind index from the public TypeScript declarations.
+The bundled index, names and strokes retain their source metadata and licence notices. New generated-data example comments are emitted by the existing data/name writers, so a future refresh preserves the documentation. The shared docs build creates reference pages, Markdown twins and a local Pagefind index from the public TypeScript declarations.
