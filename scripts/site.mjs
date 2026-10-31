@@ -27,7 +27,7 @@ const uses = [
   `mountBushu(element, { ...(await loadBushuData()), language: "ja" })  // the picker above, in any page`,
   `<bushu-picker lang="ja" parts="氵 日"></bushu-picker>`,
 ];
-const escape = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const escapeHtml = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const page = `<!doctype html>
 <html lang="en">
@@ -71,7 +71,7 @@ const page = `<!doctype html>
         <h2 id="more-title" data-say="moreTitle"></h2>
         <p data-say="moreText"></p>
         <ul class="uses">
-          ${uses.map((line) => `<li><code>${escape(line)}</code></li>`).join("\n          ")}
+          ${uses.map((line) => `<li><code>${escapeHtml(line)}</code></li>`).join("\n          ")}
         </ul>
       </section>
       <section class="more tag" aria-labelledby="tag-title">

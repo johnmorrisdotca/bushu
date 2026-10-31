@@ -64,7 +64,7 @@ describe("where the data came from, as it says itself", () => {
   });
 
   it("lists EDRDG's own Unicode characters for the stand-ins", () => {
-    expect(RADKFILE.unicode["汁"]).toBe("⺡");
-    expect(RADKFILE.unicode["化"]).toBe("⺅");
+    expect(RADKFILE.unicode.汁).toBe("⺡");
+    expect(RADKFILE.unicode.化).toBe("⺅");
   });
 });

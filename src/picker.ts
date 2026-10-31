@@ -231,7 +231,7 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
       for (const key of group.radicals) {
         const tile = make("button", "bp-tile", radicalForm(key));
         tile.type = "button";
-        tile.dataset["radical"] = key;
+        tile.dataset.radical = key;
         const name = nameOf(key);
         tile.setAttribute(
           "aria-label",
@@ -253,7 +253,7 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
   function chip(key: string): HTMLButtonElement {
     const button = make("button", "bp-chip");
     button.type = "button";
-    button.dataset["radical"] = key;
+    button.dataset.radical = key;
     const name = nameOf(key);
     button.append(make("span", "bp-shape", radicalForm(key)));
     if (name !== "") button.append(make("span", "bp-name", name));
@@ -268,7 +268,7 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
   function partButton(key: string, usable: ReadonlySet<string>): HTMLButtonElement {
     const button = make("button", "bp-part");
     button.type = "button";
-    button.dataset["radical"] = key;
+    button.dataset.radical = key;
     button.setAttribute("aria-pressed", String(chosen.includes(key)));
     // A part that no kanji holds together with what is chosen is dimmed, as in the grid, and cannot be pressed.
     button.disabled = !chosen.includes(key) && !usable.has(key);
@@ -360,7 +360,7 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
       const on = chosen.includes(key);
       tile.setAttribute("aria-pressed", String(on));
       tile.disabled = !on && !usable.has(key);
-      tile.dataset["dim"] = String(tile.disabled);
+      tile.dataset.dim = String(tile.disabled);
     }
 
     results.setAttribute("aria-label", say("resultsLabel"));
@@ -369,7 +369,7 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
     for (const kanji of shown) {
       const button = make("button", "bp-kanji", kanji);
       button.type = "button";
-      button.dataset["kanji"] = kanji;
+      button.dataset.kanji = kanji;
       button.lang = "ja";
       button.setAttribute("aria-label", say("pick", { kanji }));
       button.setAttribute("aria-pressed", String(kanji === selected));

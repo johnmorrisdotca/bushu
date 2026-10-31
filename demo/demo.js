@@ -91,7 +91,7 @@ const settings = {
       : 120,
 };
 let chosen = params.has("parts") ? [...params.get("parts")].filter((one) => one.trim() !== "") : (kept.chosen ?? []);
-let kanji = params.get("kanji") ?? null;
+const kanji = params.get("kanji") ?? null;
 
 const language = familyLanguage({
   id: "bushu",

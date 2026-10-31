@@ -113,7 +113,7 @@ export function bushuLanguageOf(tag: string | null | undefined): BushuLanguage {
  */
 export function bushuSay(language: BushuLanguage, key: string, values: Record<string, string | number> = {}): string {
   const table = BUSHU_STRINGS[language];
-  const one = values["n"] === 1 && `${key}One` in table ? `${key}One` : key;
+  const one = values.n === 1 && `${key}One` in table ? `${key}One` : key;
   const line = table[one] ?? BUSHU_STRINGS.en[one] ?? table[key] ?? BUSHU_STRINGS.en[key] ?? key;
   return line.replace(/\{(\w+)\}/g, (whole, name: string) => (name in values ? String(values[name]) : whole));
 }

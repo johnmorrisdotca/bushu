@@ -29,8 +29,8 @@ test("reflected choices and host callbacks preserve the mounted picker", async (
     const { definePicker } = await import("../dist/element.js");
     definePicker("article-radicals");
     definePicker("article-radicals");
-    const mount = element.picker,
-      before = mount.chosen();
+    const mount = element.picker;
+    const before = mount.chosen();
     element.options = { onChange: () => {} };
     element.limit = 30;
     element.theme = "light";
@@ -53,8 +53,8 @@ test("picker events cross shadow roots, and theme and labels remain per element"
   await page.goto("http://bushu.test/embed/?parts=氵&theme=dark&label=Mine");
   await expect(page.locator(".bp-tile").first()).toBeVisible();
   const result = await page.evaluate(async () => {
-    const host = globalThis.document.createElement("div"),
-      shadow = host.attachShadow({ mode: "open" });
+    const host = globalThis.document.createElement("div");
+    const shadow = host.attachShadow({ mode: "open" });
     globalThis.document.body.append(host);
     const picker = globalThis.document.createElement("bushu-picker");
     picker.theme = "light";

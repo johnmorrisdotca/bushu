@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 import { at, open, picker, tile } from "./demo.mjs";
 
 test("the words and the names change with the language, and the parts stay chosen", async ({ page }) => {
-  const errors = await open(page, "?lang=en&help=off&parts=" + encodeURIComponent("汁"));
+  const errors = await open(page, `?lang=en&help=off&parts=${encodeURIComponent("汁")}`);
   const chip = picker(page).locator('.bp-chip[data-radical="汁"]');
   await expect(chip).toContainText("water");
   await expect(picker(page).locator(".bp-says")).toContainText("hold all of these parts");
@@ -23,7 +23,7 @@ test("the words and the names change with the language, and the parts stay chose
 });
 
 test("the names can be hidden, and a radical no school names has none", async ({ page }) => {
-  const errors = await open(page, "?lang=ja&help=off&parts=" + encodeURIComponent("汁九"));
+  const errors = await open(page, `?lang=ja&help=off&parts=${encodeURIComponent("汁九")}`);
   await expect(picker(page).locator('.bp-chip[data-radical="汁"] .bp-name')).toHaveText("さんずい");
   // 九 is a component no school lists as a radical: a chip with its shape and no name.
   await expect(picker(page).locator('.bp-chip[data-radical="九"]')).toBeVisible();
@@ -34,7 +34,7 @@ test("the names can be hidden, and a radical no school names has none", async ({
 });
 
 test("the language and the options are kept on the device", async ({ page }) => {
-  const errors = await open(page, "?lang=en&help=off&parts=" + encodeURIComponent("日"));
+  const errors = await open(page, `?lang=en&help=off&parts=${encodeURIComponent("日")}`);
   await page.locator('[data-lang="ja"]').click();
   await page.locator(`${at("limit")} button[data-value="30"]`).click();
   await page.goto("http://bushu.test/?help=off");

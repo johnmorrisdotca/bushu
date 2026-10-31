@@ -93,14 +93,14 @@ for (const name of ["onChange", "onPick"])
   leftOut[`mount.${name}`] = "Callbacks belong to host options; native events carry the same detail.";
 let mounted;
 const page = globalThis.familyLanguage({
-    id: "bushu",
-    words,
-    onChange: () => {
-      docsLink();
-      mounted?.draw();
-    },
-  }),
-  heights = {};
+  id: "bushu",
+  words,
+  onChange: () => {
+    docsLink();
+    mounted?.draw();
+  },
+});
+const heights = {};
 const key = (settings) => JSON.stringify(settings);
 const builder = familyEmbedBuilder({
   id: "bushu",

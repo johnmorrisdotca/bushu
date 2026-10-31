@@ -61,7 +61,7 @@ test("choosing parts narrows the kanji and dims the parts that can no longer hel
 });
 
 test("a kanji tapped shows its parts, and a part there is chosen with a tap", async ({ page }) => {
-  const errors = await open(page, "?lang=en&help=off&parts=" + encodeURIComponent("日月"));
+  const errors = await open(page, `?lang=en&help=off&parts=${encodeURIComponent("日月")}`);
   await page.locator(`${at("picker")} .bp-kanji[data-kanji="明"]`).click();
   const card = picker(page).locator(".bp-detail");
   await expect(card.locator(".bp-big")).toHaveText("明");
@@ -106,7 +106,7 @@ test("the page does not scroll sideways, and the boxes keep their height whateve
 });
 
 test("a long list says so, and is cut at the limit chosen", async ({ page }) => {
-  const errors = await open(page, "?lang=en&help=off&limit=30&parts=" + encodeURIComponent("口"));
+  const errors = await open(page, `?lang=en&help=off&limit=30&parts=${encodeURIComponent("口")}`);
   await expect(results(page)).toHaveCount(30);
   await expect(says(page)).toContainText("Showing the first 30");
   await page.locator(`${at("limit")} button[data-value="500"]`).click();
@@ -115,7 +115,7 @@ test("a long list says so, and is cut at the limit chosen", async ({ page }) => 
 });
 
 test("matches are fewest strokes first, or in the dictionary's order when asked", async ({ page }) => {
-  const errors = await open(page, "?lang=en&help=off&order=strokes&parts=" + encodeURIComponent("日月"));
+  const errors = await open(page, `?lang=en&help=off&order=strokes&parts=${encodeURIComponent("日月")}`);
   const strokesOf = (kanji) => page.evaluate(async (one) => (await import("/dist/strokes.js")).strokesOf(one), kanji);
   const list = await results(page).evaluateAll((buttons) => buttons.map((button) => button.dataset.kanji));
   const counts = [];
