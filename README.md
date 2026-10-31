@@ -710,7 +710,7 @@ Please follow the [code of conduct](./CODE_OF_CONDUCT.md). A security problem is
 
 ## Changes
 
-See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.0, adds the picker as an element with the standard embed attributes, the shared embed builder, and the documentation site with a checked example for every export.
+See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.1, changes nothing a player sees.
 
 ## Licence
 
