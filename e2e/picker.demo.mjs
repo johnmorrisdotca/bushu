@@ -6,7 +6,9 @@ import { at, open, picker, tile } from "./demo.mjs";
 const results = (page) => page.locator(`${at("picker")} .bp-kanji`);
 const says = (page) => picker(page).locator(".bp-says");
 
-test("the grid is the 253 radicals grouped by stroke count, fewest first, on tiles a finger can press", async ({ page }) => {
+test("the grid is the 253 radicals grouped by stroke count, fewest first, on tiles a finger can press", async ({
+  page,
+}) => {
   const errors = await open(page, "?lang=en&help=off");
   await expect(picker(page).locator(".bp-tile")).toHaveCount(253);
   const headings = await picker(page).locator(".bp-strokes").allTextContents();
@@ -21,12 +23,16 @@ test("the grid is the 253 radicals grouped by stroke count, fewest first, on til
   expect(box.height).toBeGreaterThanOrEqual(44);
   await expect(tile(page, "汁")).toHaveText("氵");
   // 乞 is filed under three strokes, not RADKFILE's two.
-  const group = await tile(page, "乞").evaluate((button) => button.closest(".bp-group").querySelector(".bp-strokes").textContent);
+  const group = await tile(page, "乞").evaluate(
+    (button) => button.closest(".bp-group").querySelector(".bp-strokes").textContent,
+  );
   expect(group).toBe("3 strokes");
   expect(errors).toEqual([]);
 });
 
-test("choosing parts narrows the kanji and dims the parts that can no longer help, and taking one away widens them again", async ({ page }) => {
+test("choosing parts narrows the kanji and dims the parts that can no longer help, and taking one away widens them again", async ({
+  page,
+}) => {
   const errors = await open(page, "?lang=en&help=off&parts=");
   await expect(says(page)).toHaveText("Choose the parts you can see in the kanji.");
   await expect(results(page)).toHaveCount(0);
@@ -80,7 +86,12 @@ test("a kanji tapped shows its parts, and a part there is chosen with a tap", as
 
 test("the page does not scroll sideways, and the boxes keep their height whatever is chosen", async ({ page }) => {
   const errors = await open(page, "?lang=en&help=off&parts=");
-  const heights = async () => picker(page).evaluate((host) => [".bp-chosen", ".bp-results", ".bp-detail", ".bp-grid"].map((selector) => Math.round(host.querySelector(selector).getBoundingClientRect().height)));
+  const heights = async () =>
+    picker(page).evaluate((host) =>
+      [".bp-chosen", ".bp-results", ".bp-detail", ".bp-grid"].map((selector) =>
+        Math.round(host.querySelector(selector).getBoundingClientRect().height),
+      ),
+    );
   const before = await heights();
   await tile(page, "日").click();
   await tile(page, "月").click();
@@ -88,7 +99,9 @@ test("the page does not scroll sideways, and the boxes keep their height whateve
   const after = await heights();
   // The row of chosen parts may only be taller where its chips wrap; the three boxes below it never move.
   expect(after.slice(1)).toEqual(before.slice(1));
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(
+    true,
+  );
   expect(errors).toEqual([]);
 });
 

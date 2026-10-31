@@ -1,7 +1,15 @@
 // The parsers the data is built with (scripts/data-parse.mjs), on small samples: the same text always makes the same data.
 import { describe, expect, it } from "vitest";
 
-import { disagreements, groupByStrokes, headerDate, parseCsv, parseKanjidic, parseKradfile, parseRadkfile } from "../scripts/data-parse.mjs";
+import {
+  disagreements,
+  groupByStrokes,
+  headerDate,
+  parseCsv,
+  parseKanjidic,
+  parseKradfile,
+  parseRadkfile,
+} from "../scripts/data-parse.mjs";
 
 const RADK = `#
 # Jim Breen, Tokyo, January 2001
@@ -89,7 +97,10 @@ describe("KANJIDIC2", () => {
 
   it("reads the first stroke count of each kanji, and what the file says of itself", () => {
     const read = parseKanjidic(XML);
-    expect([...read.strokes]).toEqual([["亜", 7], ["唖", 10]]);
+    expect([...read.strokes]).toEqual([
+      ["亜", 7],
+      ["唖", 10],
+    ]);
     expect(read.fileVersion).toBe("4");
     expect(read.databaseVersion).toBe("2026-274");
     expect(read.createdOn).toBe("2026-10-01");
@@ -106,10 +117,22 @@ describe("KANJIDIC2", () => {
 
 describe("grouping and CSV", () => {
   it("groups the strokes by count, in code point order", () => {
-    expect(groupByStrokes(new Map([["日", 4], ["一", 1], ["月", 4], ["二", 2]]))).toEqual({ 1: "一", 2: "二", 4: "日月" });
+    expect(
+      groupByStrokes(
+        new Map([
+          ["日", 4],
+          ["一", 1],
+          ["月", 4],
+          ["二", 2],
+        ]),
+      ),
+    ).toEqual({ 1: "一", 2: "二", 4: "日月" });
   });
 
   it("reads quoted cells, and leaves the header row out", () => {
-    expect(parseCsv('a,b\n1,"x, y"\n\n2,z\n')).toEqual([["1", "x, y"], ["2", "z"]]);
+    expect(parseCsv('a,b\n1,"x, y"\n\n2,z\n')).toEqual([
+      ["1", "x, y"],
+      ["2", "z"],
+    ]);
   });
 });

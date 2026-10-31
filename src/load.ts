@@ -20,6 +20,10 @@ import type { BushuMountOptions } from "./picker.ts";
  * ```
  */
 export async function loadBushuData(): Promise<Pick<BushuMountOptions, "radicals" | "names" | "strokes">> {
-  const [{ RADKFILE }, { radicalNameEntry }, { strokesOf }] = await Promise.all([import("./data/radkfile.data.ts"), import("./names.ts"), import("./strokes.ts")]);
+  const [{ RADKFILE }, { radicalNameEntry }, { strokesOf }] = await Promise.all([
+    import("./data/radkfile.data.ts"),
+    import("./names.ts"),
+    import("./strokes.ts"),
+  ]);
   return { radicals: RADKFILE.radicals, names: radicalNameEntry, strokes: strokesOf };
 }

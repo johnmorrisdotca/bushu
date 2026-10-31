@@ -49,7 +49,9 @@ export function radicalGroups(radicals: readonly Radical[]): RadicalGroup[] {
     if (held) held.push(entry.radical);
     else groups.set(entry.strokes, [entry.radical]);
   }
-  return [...groups.entries()].sort((left, right) => left[0] - right[0]).map(([strokes, keys]) => ({ strokes, radicals: keys }));
+  return [...groups.entries()]
+    .sort((left, right) => left[0] - right[0])
+    .map(([strokes, keys]) => ({ strokes, radicals: keys }));
 }
 
 /**
@@ -130,7 +132,9 @@ export function usableRadicals(radicals: readonly Radical[], chosen: readonly st
  */
 export function orderChosen(radicals: readonly Radical[], chosen: readonly string[]): string[] {
   const order = new Map(radicals.map((entry, index) => [entry.radical, index]));
-  return [...chosen].filter((radical) => order.has(radical)).sort((left, right) => order.get(left)! - order.get(right)!);
+  return [...chosen]
+    .filter((radical) => order.has(radical))
+    .sort((left, right) => order.get(left)! - order.get(right)!);
 }
 
 /**
@@ -157,5 +161,8 @@ export function radicalsInKanji(radicals: readonly Radical[], kanji: string): Ra
   if (kanji.length === 0) return [];
   return radicals
     .filter((entry) => entry.kanji.includes(kanji))
-    .sort((left, right) => left.strokes - right.strokes || (left.radical < right.radical ? -1 : left.radical > right.radical ? 1 : 0));
+    .sort(
+      (left, right) =>
+        left.strokes - right.strokes || (left.radical < right.radical ? -1 : left.radical > right.radical ? 1 : 0),
+    );
 }

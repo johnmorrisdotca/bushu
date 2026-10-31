@@ -91,7 +91,11 @@ export const BUSHU_STRINGS: Record<BushuLanguage, Record<string, string>> = {
  * ```
  */
 export function bushuLanguageOf(tag: string | null | undefined): BushuLanguage {
-  return String(tag ?? "").toLowerCase().startsWith("ja") ? "ja" : "en";
+  return String(tag ?? "")
+    .toLowerCase()
+    .startsWith("ja")
+    ? "ja"
+    : "en";
 }
 
 /** A line in a language, with its `{name}` values filled in, and its `One` form when `n` is 1.

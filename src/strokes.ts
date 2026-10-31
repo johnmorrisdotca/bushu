@@ -8,7 +8,8 @@ export { KANJI_STROKES } from "./data/strokes.data.ts";
 
 const COUNTS: ReadonlyMap<string, number> = (() => {
   const counts = new Map<string, number>();
-  for (const [count, kanji] of Object.entries(KANJI_STROKES.byStrokes)) for (const one of kanji) counts.set(one, Number(count));
+  for (const [count, kanji] of Object.entries(KANJI_STROKES.byStrokes))
+    for (const one of kanji) counts.set(one, Number(count));
   return counts;
 })();
 
@@ -43,6 +44,8 @@ export function strokesOf(kanji: string): number | null {
 export function sortByStrokes(kanji: readonly string[]): string[] {
   return kanji
     .map((one, index) => ({ one, index, strokes: COUNTS.get(one) ?? Number.POSITIVE_INFINITY }))
-    .sort((left, right) => (left.strokes === right.strokes ? left.index - right.index : left.strokes < right.strokes ? -1 : 1))
+    .sort((left, right) =>
+      left.strokes === right.strokes ? left.index - right.index : left.strokes < right.strokes ? -1 : 1,
+    )
     .map((row) => row.one);
 }

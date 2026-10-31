@@ -1,6 +1,6 @@
 import { radicalForm, withCorrectedStrokes } from "./forms.ts";
 import { kanjiForRadicals, orderChosen, radicalGroups, radicalsInKanji, usableRadicals } from "./radicals.ts";
-import { bushuLanguageOf, bushuSay, type BushuLanguage } from "./strings.ts";
+import { type BushuLanguage, bushuLanguageOf, bushuSay } from "./strings.ts";
 import { BUSHU_STYLE } from "./style.ts";
 import type { Radical } from "./types.ts";
 
@@ -175,13 +175,20 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
   const known = new Set(grid.map((entry) => entry.radical));
   // A part may be named by its key or by the shape people see (氵 for 汁); a key that is itself a shape wins (八 is a key, and the form of ハ).
   const byShape = new Map<string, string>();
-  for (const { radical } of grid) if (!known.has(radicalForm(radical)) && !byShape.has(radicalForm(radical))) byShape.set(radicalForm(radical), radical);
+  for (const { radical } of grid)
+    if (!known.has(radicalForm(radical)) && !byShape.has(radicalForm(radical)))
+      byShape.set(radicalForm(radical), radical);
   const keyOf = (part: string): string | null => (known.has(part) ? part : (byShape.get(part) ?? null));
   let names = options.names;
   let strokes = options.strokes;
   let limit = options.limit ?? BUSHU_RESULT_LIMIT;
-  let language: BushuLanguage = options.language ?? bushuLanguageOf(host.closest("[lang]")?.getAttribute("lang") ?? host.ownerDocument.documentElement.lang);
-  let chosen = orderChosen(grid, (options.chosen ?? []).map(keyOf).filter((key): key is string => key !== null));
+  let language: BushuLanguage =
+    options.language ??
+    bushuLanguageOf(host.closest("[lang]")?.getAttribute("lang") ?? host.ownerDocument.documentElement.lang);
+  let chosen = orderChosen(
+    grid,
+    (options.chosen ?? []).map(keyOf).filter((key): key is string => key !== null),
+  );
   let selected: string | null = options.kanji ?? null;
   let matches: string[] = [];
   let destroyed = false;
@@ -226,7 +233,12 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
         tile.type = "button";
         tile.dataset["radical"] = key;
         const name = nameOf(key);
-        tile.setAttribute("aria-label", name === "" ? say("tileLabelBare", { part: radicalForm(key), n: group.strokes }) : say("tileLabel", { part: radicalForm(key), name, n: group.strokes }));
+        tile.setAttribute(
+          "aria-label",
+          name === ""
+            ? say("tileLabelBare", { part: radicalForm(key), n: group.strokes })
+            : say("tileLabel", { part: radicalForm(key), name, n: group.strokes }),
+        );
         if (name !== "") tile.title = name;
         tile.setAttribute("aria-pressed", "false");
         tile.addEventListener("click", () => toggle(key));
@@ -245,7 +257,10 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
     const name = nameOf(key);
     button.append(make("span", "bp-shape", radicalForm(key)));
     if (name !== "") button.append(make("span", "bp-name", name));
-    button.setAttribute("aria-label", say("removePart", { part: name === "" ? radicalForm(key) : `${radicalForm(key)} ${name}` }));
+    button.setAttribute(
+      "aria-label",
+      say("removePart", { part: name === "" ? radicalForm(key) : `${radicalForm(key)} ${name}` }),
+    );
     button.addEventListener("click", () => remove(key));
     return button;
   }
@@ -265,7 +280,12 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
   }
 
   function eventDetail(): BushuEventDetail {
-    return { chosen: [...chosen], matches: matches.length, kanji: selected, parts: selected === null ? [] : radicalsInKanji(grid, selected).map((entry) => entry.radical) };
+    return {
+      chosen: [...chosen],
+      matches: matches.length,
+      kanji: selected,
+      parts: selected === null ? [] : radicalsInKanji(grid, selected).map((entry) => entry.radical),
+    };
   }
 
   function drawDetail(): void {
@@ -284,19 +304,25 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
     big.setAttribute("lang", "ja");
     const meta = make("span", "bp-meta");
     const count = strokes?.(selected) ?? null;
-    meta.textContent = count === null ? say("detailTitle", { kanji: selected }) : `${say("detailTitle", { kanji: selected })} · ${say("detailStrokes", { n: count })}`;
+    meta.textContent =
+      count === null
+        ? say("detailTitle", { kanji: selected })
+        : `${say("detailTitle", { kanji: selected })} · ${say("detailStrokes", { n: count })}`;
     const copy = make("button", "bp-copy", say("copy"));
     copy.type = "button";
     copy.addEventListener("click", () => {
       const kanji = selected;
       if (kanji === null || typeof navigator === "undefined" || navigator.clipboard === undefined) return;
-      void navigator.clipboard.writeText(kanji).then(() => {
-        copy.textContent = say("copied");
-        clearTimeout(copiedTimer);
-        copiedTimer = setTimeout(() => {
-          if (!destroyed) copy.textContent = say("copy");
-        }, 1500);
-      }, () => undefined);
+      void navigator.clipboard.writeText(kanji).then(
+        () => {
+          copy.textContent = say("copied");
+          clearTimeout(copiedTimer);
+          copiedTimer = setTimeout(() => {
+            if (!destroyed) copy.textContent = say("copy");
+          }, 1500);
+        },
+        () => undefined,
+      );
     });
     head.append(big, meta, copy);
     const list = make("div", "bp-parts");
@@ -310,7 +336,13 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
   function draw(): void {
     const all = kanjiForRadicals(grid, chosen);
     const count = strokes;
-    matches = count === undefined ? all : all.map((kanji, index) => ({ kanji, index, n: count(kanji) ?? Infinity })).sort((left, right) => (left.n === right.n ? left.index - right.index : left.n < right.n ? -1 : 1)).map((row) => row.kanji);
+    matches =
+      count === undefined
+        ? all
+        : all
+            .map((kanji, index) => ({ kanji, index, n: count(kanji) ?? Infinity }))
+            .sort((left, right) => (left.n === right.n ? left.index - right.index : left.n < right.n ? -1 : 1))
+            .map((row) => row.kanji);
     const usable = usableRadicals(grid, chosen);
 
     chosenBox.setAttribute("aria-label", say("chosenLabel"));
@@ -344,7 +376,14 @@ export function mountBushu(host: HTMLElement, options: BushuMountOptions): Bushu
       button.addEventListener("click", () => api.select(kanji));
       results.append(button);
     }
-    says.textContent = chosen.length === 0 ? say("chooseSome") : matches.length === 0 ? say("foundNone") : matches.length > limit ? say("foundMore", { n: matches.length, shown: limit }) : say("found", { n: matches.length });
+    says.textContent =
+      chosen.length === 0
+        ? say("chooseSome")
+        : matches.length === 0
+          ? say("foundNone")
+          : matches.length > limit
+            ? say("foundMore", { n: matches.length, shown: limit })
+            : say("found", { n: matches.length });
     drawDetail();
   }
 

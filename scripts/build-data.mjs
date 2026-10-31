@@ -57,20 +57,29 @@ const hashes = { radkfile: sha256(radk), kradfile: sha256(krad), kanjidic: sha25
 /** The `retrieved` date a data file already carries when it was made from these very bytes, else today. */
 function retrievedFor(path, hash) {
   if (!existsSync(path)) return today;
-  return new RegExp(`sha256: "${hash}", retrieved: "(\\d{4}-\\d{2}-\\d{2})"`).exec(readFileSync(path, "utf8"))?.[1] ?? today;
+  return (
+    new RegExp(`sha256: "${hash}", retrieved: "(\\d{4}-\\d{2}-\\d{2})"`).exec(readFileSync(path, "utf8"))?.[1] ?? today
+  );
 }
 
 // EUC-JP, not UTF-8: RADKFILE and KRADFILE predate it and are still published that way.
 const radkfile = parseRadkfile(new TextDecoder("euc-jp").decode(gunzipSync(radk)));
 const kradfile = parseKradfile(new TextDecoder("euc-jp").decode(gunzipSync(krad)));
 const wrong = disagreements(radkfile, kradfile);
-if (wrong.length > 0) throw new Error(`RADKFILE and KRADFILE disagree about ${wrong.length} kanji (${wrong.slice(0, 8).join(" ")}...): refusing to write either`);
+if (wrong.length > 0)
+  throw new Error(
+    `RADKFILE and KRADFILE disagree about ${wrong.length} kanji (${wrong.slice(0, 8).join(" ")}...): refusing to write either`,
+  );
 const kanjiOfRadkfile = [...new Set(radkfile.radicals.flatMap((entry) => [...entry.kanji]))].join("");
 const kanjidic = parseKanjidic(new TextDecoder("utf-8").decode(gunzipSync(dic)), kanjiOfRadkfile);
 const missing = [...kanjiOfRadkfile].filter((kanji) => !kanjidic.strokes.has(kanji));
-if (missing.length > 0) throw new Error(`KANJIDIC2 has no stroke count for ${missing.length} kanji of RADKFILE (${missing.slice(0, 8).join(" ")})`);
+if (missing.length > 0)
+  throw new Error(
+    `KANJIDIC2 has no stroke count for ${missing.length} kanji of RADKFILE (${missing.slice(0, 8).join(" ")})`,
+  );
 
-const sourceBlock = (source, hash, extra = "") => `{ name: ${JSON.stringify(source.name)}, url: ${JSON.stringify(source.url)}, ${extra}sha256: ${JSON.stringify(hash)}, retrieved: ${JSON.stringify(retrievedFor(source === SOURCES.kanjidic ? OUT_STROKES : OUT_RADKFILE, hash))} }`;
+const sourceBlock = (source, hash, extra = "") =>
+  `{ name: ${JSON.stringify(source.name)}, url: ${JSON.stringify(source.url)}, ${extra}sha256: ${JSON.stringify(hash)}, retrieved: ${JSON.stringify(retrievedFor(source === SOURCES.kanjidic ? OUT_STROKES : OUT_RADKFILE, hash))} }`;
 
 const radkfileText = `import type { Radical } from "../types.ts";
 
@@ -140,7 +149,9 @@ export const KANJI_STROKES: {
 } = {
   source: ${sourceBlock(SOURCES.kanjidic, hashes.kanjidic, `fileVersion: ${JSON.stringify(kanjidic.fileVersion)}, databaseVersion: ${JSON.stringify(kanjidic.databaseVersion)}, fileDate: ${JSON.stringify(kanjidic.createdOn)}, `)},
   byStrokes: {
-${Object.entries(groups).map(([count, kanji]) => `    ${JSON.stringify(count)}: ${JSON.stringify(kanji)},`).join("\n")}
+${Object.entries(groups)
+  .map(([count, kanji]) => `    ${JSON.stringify(count)}: ${JSON.stringify(kanji)},`)
+  .join("\n")}
   },
 };
 `;
@@ -149,4 +160,6 @@ writeFileSync(OUT_RADKFILE, radkfileText);
 writeFileSync(OUT_STROKES, strokesText);
 console.log(`Wrote ${radkfile.radicals.length} radicals covering ${kanjiOfRadkfile.length} kanji to ${OUT_RADKFILE}`);
 console.log(`Wrote ${kanjidic.strokes.size} stroke counts to ${OUT_STROKES}`);
-console.log(`RADKFILE ${hashes.radkfile} (${radkfile.headerDate}), KRADFILE ${hashes.kradfile} (${kradfile.headerDate}), KANJIDIC2 ${hashes.kanjidic} (${kanjidic.createdOn})`);
+console.log(
+  `RADKFILE ${hashes.radkfile} (${radkfile.headerDate}), KRADFILE ${hashes.kradfile} (${kradfile.headerDate}), KANJIDIC2 ${hashes.kanjidic} (${kanjidic.createdOn})`,
+);

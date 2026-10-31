@@ -37,7 +37,13 @@ describe("the strokes of a kanji", () => {
 
 describe("sortByStrokes", () => {
   it("puts the fewest strokes first and keeps the given order within a count", () => {
-    expect(sortByStrokes(["時", "明", "日", "一", "朝"])).toEqual(["一", "日", "明", "朝", "時"].sort((a, b) => (strokesOf(a)! - strokesOf(b)!) || ["時", "明", "日", "一", "朝"].indexOf(a) - ["時", "明", "日", "一", "朝"].indexOf(b)));
+    expect(sortByStrokes(["時", "明", "日", "一", "朝"])).toEqual(
+      ["一", "日", "明", "朝", "時"].sort(
+        (a, b) =>
+          strokesOf(a)! - strokesOf(b)! ||
+          ["時", "明", "日", "一", "朝"].indexOf(a) - ["時", "明", "日", "一", "朝"].indexOf(b),
+      ),
+    );
     expect(sortByStrokes(["朝", "明"])).toEqual(["朝", "明"].sort((a, b) => strokesOf(a)! - strokesOf(b)!));
   });
 

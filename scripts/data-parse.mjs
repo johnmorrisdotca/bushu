@@ -31,7 +31,8 @@ export function parseRadkfile(text) {
     if (line.startsWith("#") || line.trim() === "") continue;
     if (line.startsWith("$")) {
       const [, radical, strokes] = line.split(/\s+/);
-      if (radical === undefined || !/^\d+$/.test(strokes ?? "")) throw new Error(`RADKFILE: cannot read the line ${JSON.stringify(line)}`);
+      if (radical === undefined || !/^\d+$/.test(strokes ?? ""))
+        throw new Error(`RADKFILE: cannot read the line ${JSON.stringify(line)}`);
       current = { radical, strokes: Number(strokes), kanji: "" };
       radicals.push(current);
     } else if (current !== null) current.kanji += line.trim();
@@ -131,6 +132,7 @@ export function parseCsv(text) {
 /** The strokes grouped by count, for a compact file: { "1": "一乙", "2": "..." }, each string in code point order. */
 export function groupByStrokes(strokes) {
   const groups = {};
-  for (const [kanji, count] of [...strokes].sort((a, b) => a[1] - b[1] || a[0].codePointAt(0) - b[0].codePointAt(0))) groups[count] = (groups[count] ?? "") + kanji;
+  for (const [kanji, count] of [...strokes].sort((a, b) => a[1] - b[1] || a[0].codePointAt(0) - b[0].codePointAt(0)))
+    groups[count] = (groups[count] ?? "") + kanji;
   return groups;
 }

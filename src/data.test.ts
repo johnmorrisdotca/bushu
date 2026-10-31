@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
-
+import { RADICAL_NAMES } from "./data/names.data.ts";
 import { RADKFILE } from "./data/radkfile.data.ts";
 import { KANJI_STROKES } from "./data/strokes.data.ts";
-import { RADICAL_NAMES } from "./data/names.data.ts";
 
 const SHA = /^[0-9a-f]{64}$/;
 const DAY = /^\d{4}-\d{2}-\d{2}$/;

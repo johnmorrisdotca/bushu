@@ -5,7 +5,17 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-const FORBIDDEN = [/wani\s*kani/i, /tofugu/i, /\bwk[-_ ]?(?:level|subject|id|catalog)/i, /@gmail\./i, /\/Users\//, /\bpassword\b/i, /\bapi[-_ ]?token\b/i, /colleague/i, /heisig/i];
+const FORBIDDEN = [
+  /wani\s*kani/i,
+  /tofugu/i,
+  /\bwk[-_ ]?(?:level|subject|id|catalog)/i,
+  /@gmail\./i,
+  /\/Users\//,
+  /\bpassword\b/i,
+  /\bapi[-_ ]?token\b/i,
+  /colleague/i,
+  /heisig/i,
+];
 const SKIP = new Set(["node_modules", "dist", "site", ".git", "test-results", "playwright-report", "pnpm-lock.yaml"]);
 const THIS = "clean.test.js";
 

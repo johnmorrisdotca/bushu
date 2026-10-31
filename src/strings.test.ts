@@ -4,8 +4,12 @@ import { BUSHU_STRINGS, bushuLanguageOf, bushuSay } from "./strings.ts";
 
 describe("the words", () => {
   it("have every line in both languages, with the same values to fill in", () => {
-    const en = Object.keys(BUSHU_STRINGS.en).filter((key) => !key.endsWith("One")).sort();
-    const ja = Object.keys(BUSHU_STRINGS.ja).filter((key) => !key.endsWith("One")).sort();
+    const en = Object.keys(BUSHU_STRINGS.en)
+      .filter((key) => !key.endsWith("One"))
+      .sort();
+    const ja = Object.keys(BUSHU_STRINGS.ja)
+      .filter((key) => !key.endsWith("One"))
+      .sort();
     expect(ja).toEqual(en);
     for (const key of en) {
       const values = (line: string): string[] => [...line.matchAll(/\{(\w+)\}/g)].map((m) => m[1]!).sort();

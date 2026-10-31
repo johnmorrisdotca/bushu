@@ -21,7 +21,11 @@ test("the tag changes when its attributes do, and tells the page what is chosen"
   await page.evaluate(() => {
     window.heard = [];
     document.getElementById("p").addEventListener("bushu-change", (event) => window.heard.push(event.detail));
-    document.getElementById("p").addEventListener("bushu-pick", (event) => window.heard.push({ pick: event.detail.kanji, parts: event.detail.parts }));
+    document
+      .getElementById("p")
+      .addEventListener("bushu-pick", (event) =>
+        window.heard.push({ pick: event.detail.kanji, parts: event.detail.parts }),
+      );
   });
   await picker.evaluate((element) => element.setAttribute("parts", "日 月"));
   await expect(picker.locator(".bp-chip")).toHaveCount(2);

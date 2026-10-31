@@ -8,8 +8,15 @@
  * The data is in `/radkfile` (the radicals), `/names` (さんずい, にんべん, くさかんむり) and `/strokes` (the strokes of a kanji), and the picker to put in a page in `/picker`.
  */
 
-export { VERSION } from "./version.ts";
-export type { Radical } from "./types.ts";
-export { kanjiForRadicals, orderChosen, radicalGroups, radicalsInKanji, usableRadicals } from "./radicals.ts";
+export {
+  isRadicalStandIn,
+  RADICAL_FORMS,
+  RADKFILE_STROKE_CORRECTIONS,
+  radicalForm,
+  radicalStrokes,
+  withCorrectedStrokes,
+} from "./forms.ts";
 export type { RadicalGroup } from "./radicals.ts";
-export { isRadicalStandIn, RADICAL_FORMS, RADKFILE_STROKE_CORRECTIONS, radicalForm, radicalStrokes, withCorrectedStrokes } from "./forms.ts";
+export { kanjiForRadicals, orderChosen, radicalGroups, radicalsInKanji, usableRadicals } from "./radicals.ts";
+export type { Radical } from "./types.ts";
+export { VERSION } from "./version.ts";

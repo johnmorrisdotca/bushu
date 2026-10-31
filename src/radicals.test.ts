@@ -151,7 +151,8 @@ describe("the real index", () => {
 
   it("puts every kanji it lists under every one of its parts, both ways round", () => {
     for (const kanji of "明海鬱漢") {
-      for (const part of radicalsInKanji(radicals, kanji)) expect(kanjiForRadicals(radicals, [part.radical])).toContain(kanji);
+      for (const part of radicalsInKanji(radicals, kanji))
+        expect(kanjiForRadicals(radicals, [part.radical])).toContain(kanji);
     }
   });
 

@@ -25,7 +25,9 @@ await takePictures({
           await page.goto(`http://bushu.test${address("氵", "ja")}`);
           await page.waitForSelector(READY);
           await open("海")(page);
-          await page.locator("#find-title").evaluate((element) => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY - 4));
+          await page
+            .locator("#find-title")
+            .evaluate((element) => window.scrollTo(0, element.getBoundingClientRect().top + window.scrollY - 4));
         } else {
           await open("明")(page);
           await page.evaluate(() => window.scrollTo(0, 0));
@@ -35,14 +37,41 @@ await takePictures({
     // Two parts chosen: the parts no kanji could join to them are dimmed, and the kanji that hold both are listed.
     { subject: "narrowing", views: ["desk"], url: address("日月"), ready: READY, target: '[data-testid="picker"]' },
     // One part chosen and nothing narrowed yet: the grid by stroke count.
-    { subject: "grid", views: ["phone"], url: address("氵", "en"), ready: READY, target: '[data-testid="picker"] .bp-grid' },
+    {
+      subject: "grid",
+      views: ["phone"],
+      url: address("氵", "en"),
+      ready: READY,
+      target: '[data-testid="picker"] .bp-grid',
+    },
     // A kanji's card: its strokes and the parts it is made of, each of which can be chosen from there.
-    { subject: "kanji-card", views: ["phone"], url: address("日月"), ready: READY, async prepare(page) { await open("明")(page); }, target: '[data-testid="picker"] .bp-detail' },
+    {
+      subject: "kanji-card",
+      views: ["phone"],
+      url: address("日月"),
+      ready: READY,
+      async prepare(page) {
+        await open("明")(page);
+      },
+      target: '[data-testid="picker"] .bp-detail',
+    },
     // The names a Japanese school teaches, beside the parts chosen.
-    { subject: "school-names", views: ["desk"], url: address("氵日", "ja"), ready: READY, target: '[data-testid="picker"] .bp-chosen' },
+    {
+      subject: "school-names",
+      views: ["desk"],
+      url: address("氵日", "ja"),
+      ready: READY,
+      target: '[data-testid="picker"] .bp-chosen',
+    },
     // The same picker in Japanese: the stroke headings, the school name of the chosen part, the matches.
     { subject: "japanese", views: ["desk"], url: address("氵", "ja"), ready: READY, target: '[data-testid="picker"]' },
     // The matches for a part, simplest first, in a box that scrolls.
-    { subject: "matches", views: ["desk"], url: address("扌", "en"), ready: READY, target: '[data-testid="picker"] .bp-results' },
+    {
+      subject: "matches",
+      views: ["desk"],
+      url: address("扌", "en"),
+      ready: READY,
+      target: '[data-testid="picker"] .bp-results',
+    },
   ],
 });

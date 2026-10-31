@@ -36,20 +36,59 @@ const OUT = "src/data/names.data.ts";
 
 /** Our form on the left, Kanji alive's row glyph on the right, for the shapes it writes in the radicals supplement (U+2E80-U+2EFF), which NFKC does not fold to the character we draw. */
 const SUPPLEMENT_GLYPHS: Readonly<Record<string, string>> = {
-  亻: "⺅", 刂: "⺉", 辶: "⻌", 氵: "⺡", 扌: "⺘", 艹: "⺾", 忄: "⺖", 犭: "⺨", 礻: "⺭", 耂: "⺹", 灬: "⺣", 衤: "⻂", 罒: "⺫", 幺: "⺓", 彑: "⺔", 攵: "⺙",
-  麦: "⻨", 青: "⻘", 尢: "⺐", 西: "⻃", 黄: "⻩", 亀: "⻲", 歯: "⻭", 无: "⺛", 長: "⻑", 斉: "⻫",
+  亻: "⺅",
+  刂: "⺉",
+  辶: "⻌",
+  氵: "⺡",
+  扌: "⺘",
+  艹: "⺾",
+  忄: "⺖",
+  犭: "⺨",
+  礻: "⺭",
+  耂: "⺹",
+  灬: "⺣",
+  衤: "⻂",
+  罒: "⺫",
+  幺: "⺓",
+  彑: "⺔",
+  攵: "⺙",
+  麦: "⻨",
+  青: "⻘",
+  尢: "⺐",
+  西: "⻃",
+  黄: "⻩",
+  亀: "⻲",
+  歯: "⻭",
+  无: "⺛",
+  長: "⻑",
+  斉: "⻫",
 };
 
 /** The two sides of 阝 are two rows in Kanji alive and two keys in RADKFILE, and they share a form, so they are paired by key rather than by shape. */
 const KEYED_GLYPHS: Readonly<Record<string, string>> = { 邦: "⻏", 阡: "⻖" };
 
 /** Rows whose glyph Kanji alive could only draw in its own font, paired by their reading instead; and shapes a Japanese dictionary files under a Kangxi radical it does not resemble under NFKC (已 under 己). */
-const READINGS: Readonly<Record<string, string>> = { 并: "はちがしら", 王: "おうへん", 戸: "とだれ", 牙: "きば", 已: "おのれ", 竜: "りゅう" };
+const READINGS: Readonly<Record<string, string>> = {
+  并: "はちがしら",
+  王: "おうへん",
+  戸: "とだれ",
+  牙: "きば",
+  已: "おのれ",
+  竜: "りゅう",
+};
 
 /** Stand-ins that may go without a name: no school teaches them as a shape. */
 const MAY_GO_UNNAMED = new Set(["マ", "ユ", "滴", "ノ", "｜"]);
 
-type Row = { strokes: number; glyph: string; meaning: string; reading: string; romaji: string; position: string | null; kangxi: number | null };
+type Row = {
+  strokes: number;
+  glyph: string;
+  meaning: string;
+  reading: string;
+  romaji: string;
+  position: string | null;
+  kangxi: number | null;
+};
 
 const args = process.argv.slice(2);
 const option = (name: string): string | undefined => (args.includes(name) ? args[args.indexOf(name) + 1] : undefined);
@@ -78,7 +117,8 @@ const isPrivateUse = (glyph: string): boolean => {
 const [namesFile, idsFile] = await Promise.all(FILES.map(textOf));
 const names = parseCsv(namesFile!.text);
 const ids = parseCsv(idsFile!.text);
-if (names.length !== ids.length) throw new Error(`the two Kanji alive files disagree: ${names.length} names against ${ids.length} ids`);
+if (names.length !== ids.length)
+  throw new Error(`the two Kanji alive files disagree: ${names.length} names against ${ids.length} ids`);
 
 // A variant row carries no Kangxi number of its own, only the id of the radical it varies; the number is the parent's.
 const kangxiById = new Map(ids.map((row) => [row[0], row[1] ? Number(row[1]) : null]));
@@ -86,7 +126,8 @@ const rows: Row[] = names.map((row, index) => {
   const [strokes, glyph, meaning, reading, romaji, positionJ] = row;
   const [, own, , idGlyph, idRomaji, variantOfId] = ids[index]!;
   const kangxi = own ? Number(own) : variantOfId ? (kangxiById.get(variantOfId) ?? null) : null;
-  if (idRomaji !== romaji || (idGlyph && glyph && idGlyph !== glyph)) throw new Error(`row ${index + 2} is not the same radical in both files: ${romaji} against ${idRomaji}`);
+  if (idRomaji !== romaji || (idGlyph && glyph && idGlyph !== glyph))
+    throw new Error(`row ${index + 2} is not the same radical in both files: ${romaji} against ${idRomaji}`);
   return {
     strokes: Number(strokes),
     glyph: glyph ?? "",
@@ -109,25 +150,40 @@ function findRow(key: string): Row | null {
   return rows.find((row) => row.glyph.length > 0 && !isPrivateUse(row.glyph) && fold(row.glyph) === folded) ?? null;
 }
 
-const named: Record<string, { name: string; romaji: string; meaning: string; position: string | null; kangxi: number | null }> = {};
+const named: Record<
+  string,
+  { name: string; romaji: string; meaning: string; position: string | null; kangxi: number | null }
+> = {};
 const unnamed: string[] = [];
 for (const { radical } of RADKFILE.radicals) {
   const row = findRow(radical);
   if (row === null) unnamed.push(radical);
-  else named[radical] = { name: row.reading, romaji: row.romaji, meaning: row.meaning.split(",")[0]?.trim() ?? row.meaning, position: row.position, kangxi: row.kangxi };
+  else
+    named[radical] = {
+      name: row.reading,
+      romaji: row.romaji,
+      meaning: row.meaning.split(",")[0]?.trim() ?? row.meaning,
+      position: row.position,
+      kangxi: row.kangxi,
+    };
 }
 
 // Every pairing written by hand must still find its row, or it has rotted.
-for (const [key, glyph] of Object.entries(KEYED_GLYPHS)) if (!rows.some((row) => row.glyph === glyph)) throw new Error(`Kanji alive no longer has ${glyph} for ${key}`);
-for (const glyph of Object.values(SUPPLEMENT_GLYPHS)) if (!rows.some((row) => row.glyph === glyph)) throw new Error(`Kanji alive no longer has ${glyph}`);
-for (const [key, reading] of Object.entries(READINGS)) if (!rows.some((row) => row.reading === reading)) throw new Error(`Kanji alive no longer has ${reading} for ${key}`);
+for (const [key, glyph] of Object.entries(KEYED_GLYPHS))
+  if (!rows.some((row) => row.glyph === glyph)) throw new Error(`Kanji alive no longer has ${glyph} for ${key}`);
+for (const glyph of Object.values(SUPPLEMENT_GLYPHS))
+  if (!rows.some((row) => row.glyph === glyph)) throw new Error(`Kanji alive no longer has ${glyph}`);
+for (const [key, reading] of Object.entries(READINGS))
+  if (!rows.some((row) => row.reading === reading)) throw new Error(`Kanji alive no longer has ${reading} for ${key}`);
 // And every stand-in a form is drawn for must have been named, or the fix that draws 氵 for 汁 leaves it named "soup" in Japanese too.
 const unnamedForms = Object.keys(RADICAL_FORMS).filter((key) => !named[key] && !MAY_GO_UNNAMED.has(key));
 if (unnamedForms.length > 0) throw new Error(`stand-ins with no Japanese name: ${unnamedForms.join(" ")}`);
 
 const retrieved = (() => {
   if (!existsSync(OUT)) return today;
-  const match = new RegExp(`${namesFile!.sha256}", .*?retrieved: "(\\d{4}-\\d{2}-\\d{2})"`, "s").exec(readFileSync(OUT, "utf8"));
+  const match = new RegExp(`${namesFile!.sha256}", .*?retrieved: "(\\d{4}-\\d{2}-\\d{2})"`, "s").exec(
+    readFileSync(OUT, "utf8"),
+  );
   return match?.[1] ?? today;
 })();
 
@@ -163,7 +219,16 @@ export const RADICAL_NAMES: {
     retrieved: ${JSON.stringify(retrieved)},
   },
   names: {
-${Object.entries(named).map(([key, entry]) => `    ${JSON.stringify(key)}: ${JSON.stringify(entry).replace(/"(\w+)":/g, "$1: ").replace(/,/g, ", ").replace(/\{/, "{ ").replace(/\}$/, " }")},`).join("\n")}
+${Object.entries(named)
+  .map(
+    ([key, entry]) =>
+      `    ${JSON.stringify(key)}: ${JSON.stringify(entry)
+        .replace(/"(\w+)":/g, "$1: ")
+        .replace(/,/g, ", ")
+        .replace(/\{/, "{ ")
+        .replace(/\}$/, " }")},`,
+  )
+  .join("\n")}
   },
 };
 `;

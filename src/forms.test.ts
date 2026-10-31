@@ -1,8 +1,15 @@
 import { describe, expect, it } from "vitest";
 
 import { RADKFILE } from "./data/radkfile.data.ts";
+import {
+  isRadicalStandIn,
+  RADICAL_FORMS,
+  RADKFILE_STROKE_CORRECTIONS,
+  radicalForm,
+  radicalStrokes,
+  withCorrectedStrokes,
+} from "./forms.ts";
 import { strokesOf } from "./strokes.ts";
-import { RADICAL_FORMS, RADKFILE_STROKE_CORRECTIONS, isRadicalStandIn, radicalForm, radicalStrokes, withCorrectedStrokes } from "./forms.ts";
 
 const KEYS = new Set(RADKFILE.radicals.map((entry) => entry.radical));
 
@@ -57,7 +64,8 @@ describe("what a RADKFILE radical looks like", () => {
 
   it("agrees with EDRDG's own list wherever the two are the same character, or the same character by Unicode's own compatibility mapping", () => {
     // 个, 并, 尚 and 滴 are the very same character; EDRDG's 疔 and 禹 are the Kangxi block's ⽧ and ⽱, which Unicode folds to ours.
-    for (const key of ["个", "并", "尚", "疔", "禹", "滴"]) expect(radicalForm(key).normalize("NFKC"), key).toBe(RADKFILE.unicode[key]!.normalize("NFKC"));
+    for (const key of ["个", "并", "尚", "疔", "禹", "滴"])
+      expect(radicalForm(key).normalize("NFKC"), key).toBe(RADKFILE.unicode[key]!.normalize("NFKC"));
   });
 });
 
@@ -80,7 +88,12 @@ describe("what RADKFILE miscounts", () => {
     expect(fixed.find((entry) => entry.radical === "乞")?.strokes).toBe(3);
     expect(fixed.find((entry) => entry.radical === "舛")?.strokes).toBe(6);
     expect(RADKFILE.radicals.find((entry) => entry.radical === "乞")?.strokes).toBe(2);
-    expect(fixed.filter((entry, index) => entry.strokes !== RADKFILE.radicals[index]!.strokes).map((entry) => entry.radical).sort()).toEqual(["乞", "舛"]);
+    expect(
+      fixed
+        .filter((entry, index) => entry.strokes !== RADKFILE.radicals[index]!.strokes)
+        .map((entry) => entry.radical)
+        .sort(),
+    ).toEqual(["乞", "舛"]);
   });
 });
 
@@ -92,7 +105,11 @@ describe("the stroke counts against KANJIDIC2", () => {
   it("agree for every radical that is a kanji in its own right, once the two are put right, except the stand-ins, whose count is the shape's and not the kanji's", () => {
     expect(own.length).toBeGreaterThan(200);
     const disagree = own.filter((entry) => strokesOf(entry.radical) !== entry.strokes).map((entry) => entry.radical);
-    expect(disagree.sort()).toEqual(Object.keys(RADICAL_FORMS).filter((key) => strokesOf(key) !== null).sort());
+    expect(disagree.sort()).toEqual(
+      Object.keys(RADICAL_FORMS)
+        .filter((key) => strokesOf(key) !== null)
+        .sort(),
+    );
   });
 
   it("show that 乞 and 舛 are the two RADKFILE gets wrong", () => {

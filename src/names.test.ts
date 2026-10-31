@@ -37,7 +37,13 @@ describe("what a Japanese school calls a radical", () => {
   });
 
   it("carries the meaning, the position and the Kangxi number with the name", () => {
-    expect(radicalNameEntry("汁")).toEqual({ name: "さんずい", romaji: "sanzui", meaning: "water", position: "へん", kangxi: 85 });
+    expect(radicalNameEntry("汁")).toEqual({
+      name: "さんずい",
+      romaji: "sanzui",
+      meaning: "water",
+      position: "へん",
+      kangxi: 85,
+    });
   });
 
   it("names nearly all of the index, every one in hiragana", () => {
@@ -54,7 +60,9 @@ describe("what a Japanese school calls a radical", () => {
 
   /* Every stand-in that draws as a shape is named as that shape, or the fix that draws 氵 for 汁 leaves it named as a kanji in Japanese too. */
   it("names every stand-in whose shape a school teaches", () => {
-    expect(Object.keys(RADICAL_FORMS).filter((key) => radicalName(key) === null && !["ノ", "｜", "滴"].includes(key))).toEqual([]);
+    expect(
+      Object.keys(RADICAL_FORMS).filter((key) => radicalName(key) === null && !["ノ", "｜", "滴"].includes(key)),
+    ).toEqual([]);
   });
 
   it("says where the names came from", () => {
@@ -88,6 +96,7 @@ describe("no course's names", () => {
   it("holds only the school names, in the Kanji alive data", () => {
     const meanings = Object.values(RADICAL_NAMES.names).map((entry) => entry.meaning);
     expect(meanings.length).toBeGreaterThan(200);
-    for (const entry of Object.values(RADICAL_NAMES.names)) expect(Object.keys(entry).sort()).toEqual(["kangxi", "meaning", "name", "position", "romaji"]);
+    for (const entry of Object.values(RADICAL_NAMES.names))
+      expect(Object.keys(entry).sort()).toEqual(["kangxi", "meaning", "name", "position", "romaji"]);
   });
 });
