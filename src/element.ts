@@ -1,3 +1,4 @@
+import { embedColorScheme, embedWidth, writeAttribute } from "./embed-attributes.ts";
 import { loadBushuData } from "./load.ts";
 import { type BushuMount, type BushuMountOptions, mountBushu } from "./picker.ts";
 import type { BushuLanguage } from "./strings.ts";
@@ -66,25 +67,10 @@ export class BushuPicker extends ElementBase {
   #widthBefore: string | null = null;
   #widthOwned = false;
   #labelBefore: { role: string | null; label: string | null } | null = null;
-  #write(name: string, value: unknown): void {
-    if (value === null || value === undefined) this.removeAttribute(name);
-    else this.setAttribute(name, String(value));
-  }
   #frame(): void {
     this.style.display = "block";
     this.style.maxWidth = "100%";
-    const width = Number(this.getAttribute("width"));
-    const size = this.getAttribute("size");
-    const pixels =
-      this.hasAttribute("width") && width > 0 && Number.isFinite(width)
-        ? Math.min(width, 2000)
-        : size === "small"
-          ? 320
-          : size === "medium"
-            ? 480
-            : size === "large"
-              ? 640
-              : null;
+    const pixels = embedWidth(this.getAttribute("width"), this.getAttribute("size"));
     if (pixels !== null) {
       if (!this.#widthOwned) this.#widthBefore = this.style.width;
       this.#widthOwned = true;
@@ -93,8 +79,7 @@ export class BushuPicker extends ElementBase {
       this.style.width = this.#widthBefore ?? "";
       this.#widthOwned = false;
     }
-    const theme = this.getAttribute("theme");
-    this.style.colorScheme = theme === "light" || theme === "dark" ? theme : "light dark";
+    this.style.colorScheme = embedColorScheme(this.getAttribute("theme"));
     this.setAttribute("data-bushu-embed", "");
     const root = this.getRootNode();
     const target: ParentNode =
@@ -235,49 +220,49 @@ export class BushuPicker extends ElementBase {
     return this.getAttribute("parts");
   }
   set parts(value: string | number | boolean | null | undefined) {
-    this.#write("parts", value);
+    writeAttribute(this, "parts", value);
   }
   /** The `kanji` attribute, reflected. */
   get kanji(): string | null {
     return this.getAttribute("kanji");
   }
   set kanji(value: string | number | boolean | null | undefined) {
-    this.#write("kanji", value);
+    writeAttribute(this, "kanji", value);
   }
   /** The `limit` attribute, reflected. */
   get limit(): string | null {
     return this.getAttribute("limit");
   }
   set limit(value: string | number | boolean | null | undefined) {
-    this.#write("limit", value);
+    writeAttribute(this, "limit", value);
   }
   /** The `size` attribute, reflected. */
   get size(): string | null {
     return this.getAttribute("size");
   }
   set size(value: string | number | boolean | null | undefined) {
-    this.#write("size", value);
+    writeAttribute(this, "size", value);
   }
   /** The `width` attribute, reflected. */
   get width(): string | null {
     return this.getAttribute("width");
   }
   set width(value: string | number | boolean | null | undefined) {
-    this.#write("width", value);
+    writeAttribute(this, "width", value);
   }
   /** The `theme` attribute, reflected. */
   get theme(): string | null {
     return this.getAttribute("theme");
   }
   set theme(value: string | number | boolean | null | undefined) {
-    this.#write("theme", value);
+    writeAttribute(this, "theme", value);
   }
   /** The `label` attribute, reflected. */
   get label(): string | null {
     return this.getAttribute("label");
   }
   set label(value: string | number | boolean | null | undefined) {
-    this.#write("label", value);
+    writeAttribute(this, "label", value);
   }
   #parts(): string[] {
     return [...(this.getAttribute("parts") ?? this.#options.chosen?.join("") ?? "")].filter(

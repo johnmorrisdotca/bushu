@@ -23,6 +23,7 @@ src/
 ├── picker.ts         mountBushu: draws the picker into an element and plays it, with its words and events
 ├── load.ts           loadBushuData: the radicals, the names and the strokes, each loaded when asked for
 ├── picker-entry.ts   the "/picker" entry: the picker, its words and its style
+├── embed-attributes.ts the family's reading of the standard embed attributes: size, width, theme, switches
 ├── element.ts        the "/element" entry: the <bushu-picker> class
 ├── element-define.ts the "/element/define" entry: defines the tag on the page
 └── data/
