@@ -39,7 +39,7 @@ What the Group's conditions ask, and where this package does it:
 | --- | --- | --- | --- | --- |
 | RADKFILE | http://ftp.edrdg.org/pub/Nihongo/radkfile.gz | October 2013 (last line of its header) | `20baf276a98173466c29c373668e044719809f510487695fe40abfd0269a004e` | 2026-10-01 |
 | KRADFILE | http://ftp.edrdg.org/pub/Nihongo/kradfile.gz | March 2023 (last line of its header) | `0c5487c1de77e36ffb5bde652f469f2de9c52efc8320137c115506f3500e9c5f` | 2026-10-01 |
-| KANJIDIC2 | http://www.edrdg.org/kanjidic/kanjidic2.xml.gz | file version 4, database version 2026-274, created 2026-10-01 | `1c60c9453e1c7a318f3492fd8e13ea792d20130402bcbce9ed84e6165dfa1d60` | 2026-10-01 |
+| KANJIDIC2 | http://www.edrdg.org/kanjidic/kanjidic2.xml.gz | file version 4, database version 2026-305, created 2026-11-01 | `68c2e554bab8ad39a054cc6e964b8307787a833a7ffbb3ab4d25ccb946808d1e` | 2026-11-01 |
 
 RADKFILE and KRADFILE say the same thing from two sides, radical by radical and kanji by kanji. The build checks that they agree on every one of the 6,355
 kanji and refuses to write anything if they do not.

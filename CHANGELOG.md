@@ -6,6 +6,14 @@ All notable changes to this project are written here. The format follows
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-11-02
+
+The stroke counts are checked against EDRDG's newest KANJIDIC2 (database 2026-305, 2026-11-01; they were from 2026-274, 2026-10-01). Nothing a player sees has changed.
+
+### Changed
+
+- **No stroke count, radical or kanji changed.** KANJIDIC2's database version, date and SHA-256 are recorded in `src/data/strokes.data.ts` and `NOTICE.md`. RADKFILE and KRADFILE are the same files as before (same SHA-256), so `radkfile.data.ts` and `names.data.ts` are untouched.
+
 ## [1.1.1] - 2026-10-31
 
 ### Changed

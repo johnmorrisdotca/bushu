@@ -710,7 +710,7 @@ Please follow the [code of conduct](./CODE_OF_CONDUCT.md). A security problem is
 
 ## Changes
 
-See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.1, changes nothing a player sees.
+See [CHANGELOG.md](./CHANGELOG.md). The latest release, 1.1.2, changes nothing a player sees.
 
 ## Licence
 

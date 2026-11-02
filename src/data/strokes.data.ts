@@ -22,7 +22,7 @@ export const KANJI_STROKES: {
   /** Stroke count to the kanji with that many, in code point order. */
   byStrokes: Readonly<Record<string, string>>;
 } = {
-  source: { name: "KANJIDIC2", url: "http://www.edrdg.org/kanjidic/kanjidic2.xml.gz", fileVersion: "4", databaseVersion: "2026-274", fileDate: "2026-10-01", sha256: "1c60c9453e1c7a318f3492fd8e13ea792d20130402bcbce9ed84e6165dfa1d60", retrieved: "2026-10-01" },
+  source: { name: "KANJIDIC2", url: "http://www.edrdg.org/kanjidic/kanjidic2.xml.gz", fileVersion: "4", databaseVersion: "2026-305", fileDate: "2026-11-01", sha256: "68c2e554bab8ad39a054cc6e964b8307787a833a7ffbb3ab4d25ccb946808d1e", retrieved: "2026-11-01" },
   byStrokes: {
     "1": "一丶丿乙亅",
     "2": "丁七乂乃九了二亠人儿入八冂冖冫几凵刀力勹匕匚匸十卜卩厂厶又",
