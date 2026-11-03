@@ -1,3 +1,5 @@
+<p align="center"><a href="https://johnmorrisdotca.github.io/bushu/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/johnmorrisdotca/bushu/main/docs/images/thumbnail-dark.png"><img src="https://raw.githubusercontent.com/johnmorrisdotca/bushu/main/docs/images/thumbnail.png" alt="Bushu: the picker's radical tiles with 日 and 月 chosen, and 明 with the other kanji that hold both parts." width="1200"></picture></a></p>
+
 <h1 align="center">Bushu <sub>部首</sub> — Find kanji by their radicals</h1>
 
 <p align="center"><strong>Find a kanji by the parts it is made of, for JavaScript and TypeScript.</strong><br>

@@ -6,6 +6,10 @@ All notable changes to this project are written here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- The README opens with the package's thumbnail, and the demo carries it as its link preview (og:image) and publishes the card, a dark card and an icon on Pages at `thumbnail.png`, `thumbnail-dark.png` and `icon.png`.
+
 ## [1.1.2] - 2026-11-02
 
 The stroke counts are checked against EDRDG's newest KANJIDIC2 (database 2026-305, 2026-11-01; they were from 2026-274, 2026-10-01). Nothing a player sees has changed.
